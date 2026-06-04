@@ -5,433 +5,237 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0d4f3c">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>طمّني</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --green:       #0d4f3c;
-  --green-mid:   #1a6b52;
-  --green-light: #2d9a74;
-  --green-glow:  #3ec98a;
-  --gold:        #c9a84c;
-  --gold-light:  #f0cc6e;
-  --cream:       #f5f0e8;
-  --white:       #ffffff;
-  --off-white:   #f8faf9;
-  --text:        #0d1f19;
-  --text-mid:    #2c4a3e;
-  --text-muted:  #6b8c7e;
-  --danger:      #c0392b;
-  --success:     #27ae60;
-  --r:           16px;
-  --r-sm:        10px;
-  --r-pill:      50px;
-  --shadow:      0 4px 20px rgba(13,79,60,0.12);
+  --green:#0d4f3c; --green-mid:#1a6b52; --green-light:#2d9a74; --green-glow:#3ec98a;
+  --gold:#c9a84c; --gold-light:#f0cc6e; --white:#ffffff; --off-white:#f8faf9;
+  --text:#0d1f19; --text-mid:#2c4a3e; --text-muted:#6b8c7e;
+  --danger:#c0392b; --success:#27ae60;
+  --r:16px; --r-sm:10px; --r-pill:50px; --shadow:0 4px 20px rgba(13,79,60,0.12);
 }
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-html, body {
-  height:100%; font-family:'Tajawal',sans-serif;
-  background:var(--green); color:var(--text);
-  overflow:hidden;
-}
-.app {
-  max-width:430px; margin:0 auto; height:100vh;
-  background:var(--off-white); position:relative; overflow:hidden;
-  display:flex; flex-direction:column;
-}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;font-family:'Tajawal',sans-serif;background:var(--green);color:var(--text);overflow:hidden}
+.app{max-width:430px;margin:0 auto;height:100vh;background:var(--off-white);position:relative;overflow:hidden;display:flex;flex-direction:column}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s cubic-bezier(.4,0,.2,1);transform:translateY(16px)}
+.screen.active{opacity:1;pointer-events:all;transform:translateY(0)}
+.screen.out{opacity:0;transform:translateY(-16px)}
 
-/* ── SCREENS ───────────────────────────────── */
-.screen {
-  position:absolute; inset:0; display:flex; flex-direction:column;
-  opacity:0; pointer-events:none;
-  transition:opacity .3s ease, transform .3s cubic-bezier(.4,0,.2,1);
-  transform:translateY(16px);
-}
-.screen.active { opacity:1; pointer-events:all; transform:translateY(0); }
-.screen.out    { opacity:0; transform:translateY(-16px); }
+/* SETUP */
+#s-setup{background:var(--green);justify-content:center;align-items:center;padding:32px 24px}
+.setup-shield{width:90px;height:90px;margin-bottom:20px}
+.setup-title{font-size:44px;font-weight:900;color:#fff;text-align:center;margin-bottom:6px}
+.setup-sub{font-size:14px;color:rgba(255,255,255,0.55);text-align:center;margin-bottom:28px;line-height:1.6}
+.setup-card{background:rgba(255,255,255,0.08);border-radius:var(--r);padding:24px;width:100%;border:1px solid rgba(255,255,255,0.1)}
+.setup-label{font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:8px;display:block}
+.setup-input{width:100%;padding:14px 16px;border-radius:var(--r-sm);background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.15);color:#fff;font-family:inherit;font-size:14px;outline:none;direction:ltr;text-align:left;transition:border-color .2s}
+.setup-input:focus{border-color:var(--green-glow)}
+.setup-hint{font-size:11px;color:rgba(255,255,255,0.35);margin-top:8px;line-height:1.6}
+.setup-btn{width:100%;margin-top:20px;padding:16px;border-radius:var(--r-pill);background:linear-gradient(135deg,var(--green-glow),var(--green-light));border:none;color:#fff;font-family:inherit;font-size:17px;font-weight:700;cursor:pointer}
 
-/* ── API KEY SETUP ─────────────────────────── */
-#s-setup { background:var(--green); justify-content:center; align-items:center; padding:32px 24px; }
-.setup-shield { width:90px; height:90px; margin-bottom:20px; }
-.setup-title  { font-size:42px; font-weight:900; color:#fff; text-align:center; margin-bottom:6px; }
-.setup-sub    { font-size:14px; color:rgba(255,255,255,0.55); text-align:center; margin-bottom:32px; line-height:1.6; }
-.setup-card   { background:rgba(255,255,255,0.08); border-radius:var(--r); padding:24px; width:100%; border:1px solid rgba(255,255,255,0.1); }
-.setup-label  { font-size:13px; color:rgba(255,255,255,0.6); margin-bottom:8px; display:block; }
-.setup-input  {
-  width:100%; padding:14px 16px; border-radius:var(--r-sm);
-  background:rgba(255,255,255,0.07); border:1.5px solid rgba(255,255,255,0.15);
-  color:#fff; font-family:inherit; font-size:14px; outline:none;
-  transition:border-color .2s;
-  direction:ltr; text-align:left;
-}
-.setup-input:focus { border-color:var(--green-glow); }
-.setup-hint { font-size:11px; color:rgba(255,255,255,0.35); margin-top:8px; line-height:1.6; }
-.setup-btn  {
-  width:100%; margin-top:20px; padding:16px; border-radius:var(--r-pill);
-  background:linear-gradient(135deg,var(--green-glow),var(--green-light));
-  border:none; color:#fff; font-family:inherit; font-size:17px; font-weight:700;
-  cursor:pointer; box-shadow:0 6px 20px rgba(62,201,138,0.35);
-}
+/* HOME */
+#s-home{background:var(--off-white)}
+.home-header{background:linear-gradient(165deg,var(--green),#0a2e22);padding:48px 22px 28px;flex-shrink:0;position:relative;overflow:hidden}
+.home-header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.header-logo{display:flex;align-items:center;gap:10px}
+.header-logo svg{width:34px;height:34px}
+.header-logo-name{font-size:24px;font-weight:900;color:#fff}
+.header-settings{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.7)}
+.header-title{font-size:20px;font-weight:700;color:#fff}
+.header-sub{font-size:13px;color:rgba(255,255,255,0.5);margin-top:5px}
+.home-body{flex:1;overflow-y:auto;padding:22px 18px 100px}
+.section-lbl{font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px}
+.cat-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.cat-card{background:var(--white);border-radius:var(--r);padding:20px 14px;box-shadow:var(--shadow);border:1.5px solid rgba(13,79,60,0.05);display:flex;flex-direction:column;align-items:center;gap:12px;cursor:pointer;transition:transform .15s}
+.cat-card:active{transform:scale(0.96)}
+.cat-icon{width:58px;height:58px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px}
+.cat-food .cat-icon{background:linear-gradient(135deg,#e8f5f0,#c8ead9)}
+.cat-pharma .cat-icon{background:linear-gradient(135deg,#e8f0f8,#c8d8ee)}
+.cat-name{font-size:16px;font-weight:700;color:var(--text)}
+.cat-desc{font-size:11px;color:var(--text-muted);text-align:center}
+.db-strip{background:var(--white);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shadow);display:flex;margin-bottom:22px;border:1.5px solid rgba(13,79,60,0.05)}
+.db-stat{flex:1;text-align:center;border-left:1px solid rgba(13,79,60,0.08)}
+.db-stat:last-child{border:none}
+.db-num{font-size:20px;font-weight:900;color:var(--green)}
+.db-lbl{font-size:10px;color:var(--text-muted);margin-top:2px}
+.bottom-nav{position:absolute;bottom:0;left:0;right:0;height:78px;background:rgba(255,255,255,0.98);backdrop-filter:blur(16px);border-top:1px solid rgba(13,79,60,0.08);display:flex;align-items:center;justify-content:space-around;padding-bottom:14px;z-index:10}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 16px;cursor:pointer;font-size:10px;color:var(--text-muted);font-weight:500}
+.nav-item.active{color:var(--green)}
+.nav-item svg{width:20px;height:20px}
+.nav-dot{width:4px;height:4px;border-radius:2px;background:var(--green);margin:2px auto 0}
 
-/* ── HOME ──────────────────────────────────── */
-#s-home { background:var(--off-white); }
-.home-header {
-  background:linear-gradient(165deg,var(--green),#0a2e22);
-  padding:48px 22px 28px; flex-shrink:0; position:relative; overflow:hidden;
-}
-.home-header::after {
-  content:''; position:absolute; bottom:-1px; left:0; right:0; height:2px;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
-}
-.header-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
-.header-logo { display:flex; align-items:center; gap:10px; }
-.header-logo svg { width:34px; height:34px; }
-.header-logo-name { font-size:24px; font-weight:900; color:#fff; letter-spacing:1px; }
-.header-settings { width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.1); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.7); }
-.header-title { font-size:20px; font-weight:700; color:#fff; }
-.header-sub   { font-size:13px; color:rgba(255,255,255,0.5); margin-top:5px; }
-.home-body { flex:1; overflow-y:auto; padding:22px 18px 100px; }
-.section-lbl { font-size:11px; font-weight:700; color:var(--text-muted); letter-spacing:.8px; text-transform:uppercase; margin-bottom:12px; }
-.cat-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px; }
-.cat-card {
-  background:var(--white); border-radius:var(--r); padding:20px 14px;
-  box-shadow:var(--shadow); border:1.5px solid rgba(13,79,60,0.05);
-  display:flex; flex-direction:column; align-items:center; gap:12px;
-  cursor:pointer; transition:transform .15s; text-decoration:none;
-}
-.cat-card:active { transform:scale(0.96); }
-.cat-icon { width:58px; height:58px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-size:28px; }
-.cat-food   .cat-icon { background:linear-gradient(135deg,#e8f5f0,#c8ead9); }
-.cat-pharma .cat-icon { background:linear-gradient(135deg,#e8f0f8,#c8d8ee); }
-.cat-name { font-size:16px; font-weight:700; color:var(--text); }
-.cat-desc { font-size:11px; color:var(--text-muted); text-align:center; }
-.db-strip {
-  background:var(--white); border-radius:var(--r); padding:16px 18px;
-  box-shadow:var(--shadow); display:flex; margin-bottom:22px;
-  border:1.5px solid rgba(13,79,60,0.05);
-}
-.db-stat { flex:1; text-align:center; border-left:1px solid rgba(13,79,60,0.08); }
-.db-stat:last-child { border:none; }
-.db-num  { font-size:20px; font-weight:900; color:var(--green); }
-.db-lbl  { font-size:10px; color:var(--text-muted); margin-top:2px; }
+/* SCAN */
+#s-scan{background:#0a1a14}
+.scan-top{padding:52px 18px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0;z-index:2;position:relative}
+.back-btn{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.8);flex-shrink:0}
+.scan-title{font-size:17px;font-weight:700;color:#fff}
+.scan-badge{margin-right:auto;padding:5px 12px;border-radius:var(--r-pill);background:rgba(62,201,138,0.15);border:1px solid rgba(62,201,138,0.3);font-size:12px;font-weight:600;color:var(--green-glow)}
+.scan-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.scan-placeholder{width:220px;height:220px;position:relative;display:flex;align-items:center;justify-content:center}
+.scan-corner{position:absolute;width:28px;height:28px;border-color:var(--green-glow);border-style:solid}
+.sc-tr{top:0;right:0;border-width:3px 3px 0 0;border-radius:0 8px 0 0}
+.sc-tl{top:0;left:0;border-width:3px 0 0 3px;border-radius:8px 0 0 0}
+.sc-br{bottom:0;right:0;border-width:0 3px 3px 0;border-radius:0 0 8px 0}
+.sc-bl{bottom:0;left:0;border-width:0 0 3px 3px;border-radius:0 0 0 8px}
+.scan-line{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--green-glow),transparent);animation:scan 2s linear infinite;box-shadow:0 0 8px var(--green-glow)}
+@keyframes scan{0%{top:0;opacity:0}5%{opacity:1}95%{opacity:1}100%{top:100%;opacity:0}}
+.scan-hint-text{color:rgba(255,255,255,0.45);font-size:13px;margin-top:16px;text-align:center;line-height:1.6}
+.preview-img{width:200px;height:200px;object-fit:cover;border-radius:12px;border:2px solid rgba(62,201,138,0.4);display:none}
+.scan-panel{background:rgba(10,22,16,0.96);padding:18px 20px 32px;flex-shrink:0;border-top:1px solid rgba(62,201,138,0.1)}
+.scan-tabs{display:flex;gap:8px;margin-bottom:16px}
+.scan-tab{flex:1;padding:9px;border-radius:10px;cursor:pointer;font-size:13px;font-weight:600;font-family:inherit;border:1.5px solid rgba(62,201,138,0.15);color:rgba(255,255,255,0.4);background:transparent;transition:all .2s}
+.scan-tab.active{background:rgba(62,201,138,0.12);border-color:var(--green-glow);color:var(--green-glow)}
+.scan-actions{display:flex;gap:10px;align-items:center}
+.capture-btn{flex:1;height:56px;border-radius:var(--r-pill);background:linear-gradient(135deg,var(--green-glow),var(--green-light));border:none;cursor:pointer;color:#fff;font-family:inherit;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 6px 20px rgba(62,201,138,0.35)}
+.gallery-btn{width:50px;height:50px;border-radius:14px;background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.1);cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center}
+#file-input,#gallery-input{display:none}
 
-/* ── SCAN ──────────────────────────────────── */
-#s-scan { background:#0a1a14; }
-.scan-top {
-  padding:52px 18px 16px; display:flex; align-items:center;
-  gap:12px; flex-shrink:0; z-index:2; position:relative;
-}
-.back-btn {
-  width:38px; height:38px; border-radius:50%;
-  background:rgba(255,255,255,0.1); border:none; cursor:pointer;
-  display:flex; align-items:center; justify-content:center;
-  color:rgba(255,255,255,0.8); flex-shrink:0;
-}
-.scan-title { font-size:17px; font-weight:700; color:#fff; }
-.scan-badge {
-  margin-right:auto; padding:5px 12px; border-radius:var(--r-pill);
-  background:rgba(62,201,138,0.15); border:1px solid rgba(62,201,138,0.3);
-  font-size:12px; font-weight:600; color:var(--green-glow);
-}
-.scan-area {
-  flex:1; display:flex; flex-direction:column; align-items:center;
-  justify-content:center; position:relative; overflow:hidden;
-}
-.scan-placeholder {
-  width:220px; height:220px; position:relative;
-  display:flex; align-items:center; justify-content:center;
-}
-.scan-corner {
-  position:absolute; width:28px; height:28px;
-  border-color:var(--green-glow); border-style:solid;
-}
-.sc-tr { top:0; right:0; border-width:3px 3px 0 0; border-radius:0 8px 0 0; }
-.sc-tl { top:0; left:0;  border-width:3px 0 0 3px; border-radius:8px 0 0 0; }
-.sc-br { bottom:0; right:0; border-width:0 3px 3px 0; border-radius:0 0 8px 0; }
-.sc-bl { bottom:0; left:0;  border-width:0 0 3px 3px; border-radius:0 0 0 8px; }
-.scan-line {
-  position:absolute; left:0; right:0; height:2px;
-  background:linear-gradient(90deg,transparent,var(--green-glow),transparent);
-  animation:scan 2s linear infinite;
-  box-shadow:0 0 8px var(--green-glow);
-}
-@keyframes scan { 0%{top:0;opacity:0} 5%{opacity:1} 95%{opacity:1} 100%{top:100%;opacity:0} }
-.scan-hint-text { color:rgba(255,255,255,0.45); font-size:13px; margin-top:16px; text-align:center; line-height:1.6; }
-.preview-img {
-  width:200px; height:200px; object-fit:cover; border-radius:12px;
-  border:2px solid rgba(62,201,138,0.4); display:none;
-}
-.scan-panel {
-  background:rgba(10,22,16,0.96); padding:18px 20px 32px;
-  flex-shrink:0; border-top:1px solid rgba(62,201,138,0.1);
-}
-.scan-tabs { display:flex; gap:8px; margin-bottom:16px; }
-.scan-tab {
-  flex:1; padding:9px; border-radius:10px; cursor:pointer;
-  font-size:13px; font-weight:600; font-family:inherit;
-  border:1.5px solid rgba(62,201,138,0.15); color:rgba(255,255,255,0.4);
-  background:transparent; transition:all .2s;
-}
-.scan-tab.active {
-  background:rgba(62,201,138,0.12); border-color:var(--green-glow);
-  color:var(--green-glow);
-}
-.scan-actions { display:flex; gap:10px; align-items:center; }
-.capture-btn {
-  flex:1; height:56px; border-radius:var(--r-pill);
-  background:linear-gradient(135deg,var(--green-glow),var(--green-light));
-  border:none; cursor:pointer; color:#fff; font-family:inherit;
-  font-size:16px; font-weight:700; display:flex; align-items:center;
-  justify-content:center; gap:8px;
-  box-shadow:0 6px 20px rgba(62,201,138,0.35);
-  transition:transform .15s;
-}
-.capture-btn:active { transform:scale(0.97); }
-.capture-btn:disabled { opacity:.5; }
-.gallery-btn {
-  width:50px; height:50px; border-radius:14px;
-  background:rgba(255,255,255,0.07);
-  border:1.5px solid rgba(255,255,255,0.1);
-  cursor:pointer; font-size:20px;
-  display:flex; align-items:center; justify-content:center;
-}
-#file-input    { display:none; }
-#gallery-input { display:none; }
+/* ANALYZING */
+#s-analyzing{background:#0a1a14;justify-content:center;align-items:center;padding:32px 24px;gap:20px}
+.analyzing-img{width:160px;height:160px;object-fit:cover;border-radius:16px;border:2px solid rgba(62,201,138,0.3)}
+.analyzing-ring{width:64px;height:64px;border-radius:50%;border:3px solid rgba(62,201,138,0.15);border-top-color:var(--green-glow);animation:spin .9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.analyzing-title{font-size:17px;font-weight:700;color:#fff;text-align:center}
+.analyzing-steps{display:flex;flex-direction:column;gap:8px;width:100%}
+.a-step{display:flex;align-items:center;gap:10px;justify-content:flex-end;font-size:13px;color:rgba(255,255,255,0.3);padding:8px 14px;border-radius:10px;background:rgba(255,255,255,0.03);width:100%;transition:all .3s}
+.a-step.done{color:var(--green-glow);background:rgba(62,201,138,0.08)}
+.a-step.active{color:#fff;background:rgba(255,255,255,0.07)}
+.a-dot{width:9px;height:9px;border-radius:50%;background:currentColor;flex-shrink:0}
 
-/* ── ANALYZING ─────────────────────────────── */
-#s-analyzing {
-  background:#0a1a14; justify-content:center; align-items:center;
-  padding:32px 24px; gap:24px;
-}
-.analyzing-img {
-  width:180px; height:180px; object-fit:cover; border-radius:16px;
-  border:2px solid rgba(62,201,138,0.3);
-}
-.analyzing-ring {
-  width:72px; height:72px; border-radius:50%;
-  border:3px solid rgba(62,201,138,0.15);
-  border-top-color:var(--green-glow);
-  animation:spin .9s linear infinite;
-}
-@keyframes spin { to{transform:rotate(360deg)} }
-.analyzing-title { font-size:18px; font-weight:700; color:#fff; text-align:center; }
-.analyzing-steps { display:flex; flex-direction:column; gap:8px; align-items:center; width:100%; }
-.a-step {
-  display:flex; align-items:center; gap:10px; justify-content:flex-end;
-  font-size:13px; color:rgba(255,255,255,0.35); padding:8px 16px;
-  border-radius:10px; background:rgba(255,255,255,0.04); width:100%;
-  transition:all .3s;
-}
-.a-step.done { color:var(--green-glow); background:rgba(62,201,138,0.08); }
-.a-step.active { color:#fff; background:rgba(255,255,255,0.07); }
-.a-dot { width:10px; height:10px; border-radius:50%; background:currentColor; flex-shrink:0; }
+/* ── CONFIRM SCREEN (NEW — replaces manual entry) ── */
+#s-confirm{background:var(--off-white)}
+.confirm-header{background:linear-gradient(165deg,var(--green),#0a2e22);padding:48px 20px 24px;flex-shrink:0}
+.confirm-header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.confirm-top{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+.confirm-title{font-size:17px;font-weight:700;color:#fff}
+.confirm-sub{font-size:13px;color:rgba(255,255,255,0.5);margin-top:4px}
+.confirm-body{flex:1;overflow-y:auto;padding:20px 18px}
+.confirm-photo{width:100%;max-height:200px;object-fit:cover;border-radius:var(--r);margin-bottom:16px;box-shadow:var(--shadow)}
+.confirm-question{font-size:15px;font-weight:700;color:var(--text);text-align:center;margin-bottom:16px}
+.detected-card{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);padding:0;overflow:hidden;margin-bottom:20px;border:2px solid rgba(45,154,116,0.2)}
+.detected-card-top{background:linear-gradient(135deg,rgba(45,154,116,0.08),rgba(45,154,116,0.03));padding:16px 18px;border-bottom:1px solid rgba(45,154,116,0.1);display:flex;align-items:center;gap:14px}
+.detected-icon{font-size:36px}
+.detected-name{font-size:18px;font-weight:800;color:var(--text)}
+.detected-meta{font-size:13px;color:var(--text-muted);margin-top:3px}
+.detected-details{padding:12px 18px}
+.d-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(13,79,60,0.05)}
+.d-row:last-child{border:none}
+.d-key{font-size:12px;color:var(--text-muted)}
+.d-val{font-size:13px;font-weight:700;color:var(--text)}
+.confirm-yes-btn{width:100%;padding:18px;border-radius:var(--r-pill);background:linear-gradient(135deg,var(--green-glow),var(--green-light));border:none;color:#fff;font-family:inherit;font-size:18px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(62,201,138,0.3);margin-bottom:12px;transition:transform .15s;display:flex;align-items:center;justify-content:center;gap:10px}
+.confirm-yes-btn:active{transform:scale(0.97)}
+.confirm-no-btn{width:100%;padding:14px;border-radius:var(--r-pill);background:transparent;border:1.5px solid rgba(13,79,60,0.15);color:var(--text-muted);font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:80px}
+.low-confidence-banner{background:rgba(201,168,76,0.1);border:1.5px solid rgba(201,168,76,0.3);border-radius:var(--r-sm);padding:10px 14px;margin-bottom:16px;font-size:12px;color:#8a6b1a;display:flex;align-items:center;gap:8px}
 
-/* ── QUALITY CHECK ─────────────────────────── */
-#s-quality { background:var(--off-white); }
-.quality-header {
-  background:linear-gradient(165deg,var(--green),#0a2e22);
-  padding:48px 20px 24px; flex-shrink:0;
-}
-.quality-top { display:flex; align-items:center; gap:12px; margin-bottom:18px; }
-.quality-title { font-size:18px; font-weight:700; color:#fff; }
-.quality-result {
-  display:flex; align-items:center; gap:14px;
-  background:rgba(255,255,255,0.08); border-radius:14px;
-  padding:14px 16px; border:1px solid rgba(255,255,255,0.1);
-}
-.quality-icon { width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
-.quality-icon.ok  { background:linear-gradient(135deg,#27ae60,#2ecc71); }
-.quality-icon.bad { background:linear-gradient(135deg,#c0392b,#e74c3c); }
-.quality-text h3 { font-size:18px; font-weight:800; color:#fff; }
-.quality-text p  { font-size:12px; color:rgba(255,255,255,0.55); margin-top:3px; }
-.quality-body { flex:1; overflow-y:auto; padding:20px 18px 100px; }
-.q-card { background:var(--white); border-radius:var(--r); box-shadow:var(--shadow); padding:18px; margin-bottom:14px; border:1.5px solid rgba(13,79,60,0.05); }
-.q-card-title { font-size:14px; font-weight:700; color:var(--text); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
-.q-card-title span { font-size:18px; }
-.detected-img { width:100%; max-height:160px; object-fit:cover; border-radius:10px; margin-bottom:12px; }
-.field-lbl { font-size:12px; color:var(--text-muted); font-weight:600; margin-bottom:6px; display:block; }
-.field-val { font-size:14px; font-weight:700; color:var(--text); background:var(--off-white); padding:10px 14px; border-radius:var(--r-sm); }
-.field-row { margin-bottom:12px; }
-.quality-actions { display:flex; gap:10px; }
-.btn-confirm {
-  flex:2; padding:16px; border-radius:var(--r-pill);
-  background:linear-gradient(135deg,var(--green-glow),var(--green-light));
-  border:none; color:#fff; font-family:inherit; font-size:16px; font-weight:700;
-  cursor:pointer; box-shadow:0 6px 20px rgba(62,201,138,0.3);
-  transition:transform .15s;
-}
-.btn-confirm:active { transform:scale(0.97); }
-.btn-retake {
-  flex:1; padding:16px; border-radius:var(--r-pill);
-  background:rgba(13,79,60,0.07); border:1.5px solid rgba(13,79,60,0.15);
-  color:var(--green); font-family:inherit; font-size:14px; font-weight:700;
-  cursor:pointer;
-}
-.tips-list { list-style:none; }
-.tips-list li { font-size:13px; color:var(--text-mid); padding:6px 0; border-bottom:1px solid rgba(13,79,60,0.05); display:flex; align-items:flex-start; gap:8px; line-height:1.6; }
-.tips-list li::before { content:'←'; color:var(--green-light); flex-shrink:0; }
-.tips-list li:last-child { border:none; }
+/* MANUAL ENTRY (fallback only) */
+#s-manual{background:var(--off-white)}
+.manual-header{background:linear-gradient(165deg,var(--green),#0a2e22);padding:48px 20px 24px;flex-shrink:0}
+.manual-title{font-size:17px;font-weight:700;color:#fff;margin-bottom:4px}
+.manual-sub{font-size:13px;color:rgba(255,255,255,0.5)}
+.manual-body{flex:1;overflow-y:auto;padding:20px 18px 100px}
+.m-card{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;margin-bottom:14px;border:1.5px solid rgba(13,79,60,0.05)}
+.m-card-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.m-card-title span{font-size:18px}
+.m-preview{width:100%;max-height:140px;object-fit:cover;border-radius:10px;margin-bottom:12px}
+.m-input{width:100%;padding:12px 14px;border-radius:var(--r-sm);border:1.5px solid rgba(13,79,60,0.15);background:var(--off-white);font-family:inherit;font-size:15px;color:var(--text);outline:none;margin-bottom:10px;transition:border-color .2s;text-align:right}
+.m-input:focus{border-color:var(--green-light);background:#fff}
+.m-label{font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:6px;display:block}
+.m-field{margin-bottom:14px}
+.size-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.size-opt{padding:10px;border-radius:var(--r-sm);text-align:center;font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid rgba(13,79,60,0.15);color:var(--text-muted);background:var(--off-white);transition:all .2s}
+.size-opt.selected{border-color:var(--green-light);color:var(--green);background:rgba(45,154,116,0.08)}
+.m-search-btn{width:100%;padding:16px;border-radius:var(--r-pill);background:linear-gradient(135deg,var(--green-glow),var(--green-light));border:none;color:#fff;font-family:inherit;font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(62,201,138,0.3);margin-bottom:100px}
 
-/* ── MANUAL ENTRY ──────────────────────────── */
-#s-manual { background:var(--off-white); }
-.manual-header {
-  background:linear-gradient(165deg,var(--green),#0a2e22);
-  padding:48px 20px 24px; flex-shrink:0;
-}
-.manual-title { font-size:18px; font-weight:700; color:#fff; margin-bottom:4px; }
-.manual-sub   { font-size:13px; color:rgba(255,255,255,0.5); }
-.manual-body  { flex:1; overflow-y:auto; padding:20px 18px 100px; }
-.m-card { background:var(--white); border-radius:var(--r); box-shadow:var(--shadow); padding:18px; margin-bottom:14px; border:1.5px solid rgba(13,79,60,0.05); }
-.m-card-title { font-size:14px; font-weight:700; color:var(--text); margin-bottom:14px; display:flex; align-items:center; gap:8px; }
-.m-card-title span { font-size:18px; }
-.m-preview { width:100%; max-height:140px; object-fit:cover; border-radius:10px; margin-bottom:12px; }
-.m-input {
-  width:100%; padding:12px 14px; border-radius:var(--r-sm);
-  border:1.5px solid rgba(13,79,60,0.15); background:var(--off-white);
-  font-family:inherit; font-size:15px; color:var(--text); outline:none;
-  margin-bottom:10px; transition:border-color .2s; text-align:right;
-}
-.m-input:focus { border-color:var(--green-light); background:#fff; }
-.m-input.detected { border-color:rgba(39,174,96,0.4); background:rgba(39,174,96,0.04); }
-.m-label { font-size:12px; font-weight:600; color:var(--text-muted); margin-bottom:6px; display:block; }
-.m-field { margin-bottom:14px; }
-.size-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:10px; }
-.size-opt {
-  padding:10px; border-radius:var(--r-sm); text-align:center;
-  font-size:13px; font-weight:600; cursor:pointer;
-  border:1.5px solid rgba(13,79,60,0.15); color:var(--text-muted);
-  background:var(--off-white); transition:all .2s;
-}
-.size-opt.selected { border-color:var(--green-light); color:var(--green); background:rgba(45,154,116,0.08); }
-.m-search-btn {
-  width:100%; padding:16px; border-radius:var(--r-pill);
-  background:linear-gradient(135deg,var(--green-glow),var(--green-light));
-  border:none; color:#fff; font-family:inherit; font-size:17px; font-weight:700;
-  cursor:pointer; box-shadow:0 6px 20px rgba(62,201,138,0.3);
-  margin-bottom:100px; transition:transform .15s;
-}
-.m-search-btn:active { transform:scale(0.97); }
+/* QUALITY */
+#s-quality{background:var(--off-white)}
+.quality-header{background:linear-gradient(165deg,var(--green),#0a2e22);padding:48px 20px 24px;flex-shrink:0}
+.quality-top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.quality-title{font-size:17px;font-weight:700;color:#fff}
+.quality-result{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.08);border-radius:14px;padding:14px 16px;border:1px solid rgba(255,255,255,0.1)}
+.quality-icon{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.quality-icon.bad{background:linear-gradient(135deg,#c0392b,#e74c3c)}
+.quality-body{flex:1;overflow-y:auto;padding:20px 18px}
+.q-card{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;margin-bottom:14px;border:1.5px solid rgba(13,79,60,0.05)}
+.q-card-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.detected-img{width:100%;max-height:160px;object-fit:cover;border-radius:10px;margin-bottom:12px}
+.tips-list{list-style:none}
+.tips-list li{font-size:13px;color:var(--text-mid);padding:6px 0;border-bottom:1px solid rgba(13,79,60,0.05);display:flex;align-items:flex-start;gap:8px;line-height:1.6}
+.tips-list li::before{content:'←';color:var(--green-light);flex-shrink:0}
+.tips-list li:last-child{border:none}
+.quality-actions{display:flex;gap:10px}
+.btn-confirm{flex:2;padding:16px;border-radius:var(--r-pill);background:linear-gradient(135deg,var(--green-glow),var(--green-light));border:none;color:#fff;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer}
+.btn-retake{flex:1;padding:16px;border-radius:var(--r-pill);background:rgba(13,79,60,0.07);border:1.5px solid rgba(13,79,60,0.15);color:var(--green);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer}
 
-/* ── RESULT SUCCESS ────────────────────────── */
-#s-success { background:var(--off-white); }
-.success-header {
-  background:linear-gradient(165deg,var(--green),#0a2e22);
-  padding:48px 20px 24px; flex-shrink:0;
-  position:relative; overflow:hidden;
-}
-.success-header::after {
-  content:''; position:absolute; bottom:-1px; left:0; right:0; height:2px;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
-}
-.success-badge {
-  display:flex; align-items:center; gap:14px;
-  background:rgba(255,255,255,0.08); border-radius:14px;
-  padding:14px 16px; border:1px solid rgba(62,201,138,0.2);
-}
-.success-icon { width:52px; height:52px; border-radius:50%; background:linear-gradient(135deg,#27ae60,#2ecc71); display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; box-shadow:0 4px 16px rgba(39,174,96,0.4); }
-.success-badge h3 { font-size:21px; font-weight:900; color:#2ecc71; }
-.success-badge p  { font-size:12px; color:rgba(255,255,255,0.5); margin-top:3px; }
-.result-body { flex:1; overflow-y:auto; padding:20px 18px 100px; }
-.r-card { background:var(--white); border-radius:var(--r); box-shadow:var(--shadow); overflow:hidden; margin-bottom:14px; border:1.5px solid rgba(13,79,60,0.05); }
-.r-card-header { padding:16px 18px; background:rgba(13,79,60,0.03); border-bottom:1px solid rgba(13,79,60,0.06); display:flex; align-items:center; gap:14px; }
-.r-product-icon { width:52px; height:52px; border-radius:16px; background:linear-gradient(135deg,#e8f5f0,#c8ead9); display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; }
-.r-product-name  { font-size:17px; font-weight:800; color:var(--text); }
-.r-product-brand { display:inline-block; margin-top:5px; background:rgba(13,79,60,0.07); border-radius:6px; padding:2px 9px; font-size:12px; font-weight:600; color:var(--green-mid); }
-.r-row {
-  padding:12px 18px; display:flex; align-items:center;
-  justify-content:space-between; border-bottom:1px solid rgba(13,79,60,0.05);
-}
-.r-row:last-child { border:none; }
-.r-key { font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px; }
-.r-val { font-size:13px; font-weight:700; color:var(--text); text-align:left; max-width:55%; }
-.r-val.success { color:var(--success); background:rgba(39,174,96,0.08); padding:3px 9px; border-radius:7px; }
-.r-val.badge   { color:var(--green); background:rgba(13,79,60,0.07); padding:3px 9px; border-radius:7px; }
-.cert-card {
-  background:linear-gradient(135deg,var(--green),var(--green-mid));
-  border-radius:var(--r); padding:18px; margin-bottom:14px;
-  box-shadow:0 6px 24px rgba(13,79,60,0.25);
-}
-.cert-top { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
-.cert-icon { width:42px; height:42px; background:rgba(255,255,255,0.15); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; }
-.cert-title { font-size:15px; font-weight:700; color:#fff; }
-.cert-sub   { font-size:11px; color:rgba(255,255,255,0.5); margin-top:2px; }
-.cert-num-block { background:rgba(0,0,0,0.2); border-radius:10px; padding:12px 14px; display:flex; justify-content:space-between; align-items:center; }
-.cert-num-label { font-size:10px; color:rgba(255,255,255,0.45); }
-.cert-num-value { font-family:monospace; font-size:16px; font-weight:900; color:var(--gold-light); letter-spacing:1.5px; }
-.result-actions { display:flex; gap:10px; margin-bottom:14px; }
-.r-action { flex:1; padding:13px; border-radius:var(--r-sm); border:none; cursor:pointer; font-family:inherit; font-size:13px; font-weight:700; transition:transform .15s; display:flex; flex-direction:column; align-items:center; gap:4px; }
-.r-action:active { transform:scale(0.96); }
-.r-action.share { background:linear-gradient(135deg,var(--green-light),var(--green)); color:#fff; }
-.r-action.again { background:rgba(13,79,60,0.07); color:var(--green); border:1.5px solid rgba(13,79,60,0.12); }
-.r-action.report{ background:rgba(192,57,43,0.07); color:var(--danger); border:1.5px solid rgba(192,57,43,0.12); }
-.r-action-icon  { font-size:18px; }
+/* SUCCESS */
+#s-success{background:var(--off-white)}
+.success-header{background:linear-gradient(165deg,var(--green),#0a2e22);padding:48px 20px 24px;flex-shrink:0;position:relative;overflow:hidden}
+.success-header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.result-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.success-badge{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.08);border-radius:14px;padding:14px 16px;border:1px solid rgba(62,201,138,0.2)}
+.success-icon{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#27ae60,#2ecc71);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;box-shadow:0 4px 16px rgba(39,174,96,0.4)}
+.success-badge h3{font-size:21px;font-weight:900;color:#2ecc71}
+.success-badge p{font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px}
+.result-body{flex:1;overflow-y:auto;padding:20px 18px 100px}
+.r-card{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;margin-bottom:14px;border:1.5px solid rgba(13,79,60,0.05)}
+.r-card-header{padding:16px 18px;background:rgba(13,79,60,0.03);border-bottom:1px solid rgba(13,79,60,0.06);display:flex;align-items:center;gap:14px}
+.r-product-icon{width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#e8f5f0,#c8ead9);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.r-product-name{font-size:17px;font-weight:800;color:var(--text)}
+.r-product-brand{display:inline-block;margin-top:5px;background:rgba(13,79,60,0.07);border-radius:6px;padding:2px 9px;font-size:12px;font-weight:600;color:var(--green-mid)}
+.r-row{padding:12px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(13,79,60,0.05)}
+.r-row:last-child{border:none}
+.r-key{font-size:12px;color:var(--text-muted)}
+.r-val{font-size:13px;font-weight:700;color:var(--text);text-align:left;max-width:58%}
+.r-val.success{color:var(--success);background:rgba(39,174,96,0.08);padding:3px 9px;border-radius:7px}
+.r-val.badge{color:var(--green);background:rgba(13,79,60,0.07);padding:3px 9px;border-radius:7px}
+.cert-card{background:linear-gradient(135deg,var(--green),var(--green-mid));border-radius:var(--r);padding:18px;margin-bottom:14px;box-shadow:0 6px 24px rgba(13,79,60,0.25)}
+.cert-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.cert-icon{width:42px;height:42px;background:rgba(255,255,255,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.cert-title{font-size:15px;font-weight:700;color:#fff}
+.cert-sub{font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px}
+.cert-num-block{background:rgba(0,0,0,0.2);border-radius:10px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center}
+.cert-num-label{font-size:10px;color:rgba(255,255,255,0.45)}
+.cert-num-value{font-family:monospace;font-size:16px;font-weight:900;color:var(--gold-light);letter-spacing:1.5px}
+.result-actions{display:flex;gap:10px;margin-bottom:14px}
+.r-action{flex:1;padding:13px;border-radius:var(--r-sm);border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:4px}
+.r-action-icon{font-size:18px}
+.r-action.share{background:linear-gradient(135deg,var(--green-light),var(--green));color:#fff}
+.r-action.again{background:rgba(13,79,60,0.07);color:var(--green);border:1.5px solid rgba(13,79,60,0.12)}
+.r-action.report{background:rgba(192,57,43,0.07);color:var(--danger);border:1.5px solid rgba(192,57,43,0.12)}
 
-/* ── RESULT FAIL ───────────────────────────── */
-#s-fail { background:var(--off-white); }
-.fail-header {
-  background:linear-gradient(165deg,#3a0d0d,#220a0a);
-  padding:48px 20px 24px; flex-shrink:0;
-}
-.fail-badge { display:flex; align-items:center; gap:14px; background:rgba(255,255,255,0.08); border-radius:14px; padding:14px 16px; border:1px solid rgba(231,76,60,0.2); }
-.fail-icon { width:52px; height:52px; border-radius:50%; background:linear-gradient(135deg,#c0392b,#e74c3c); display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; }
-.fail-badge h3 { font-size:20px; font-weight:900; color:#e74c3c; }
-.fail-badge p  { font-size:12px; color:rgba(255,255,255,0.5); margin-top:3px; }
-.fail-body { flex:1; overflow-y:auto; padding:20px 18px 100px; }
-.warn-card { background:rgba(192,57,43,0.06); border:1.5px solid rgba(192,57,43,0.15); border-radius:var(--r); padding:18px; margin-bottom:14px; }
-.warn-card h4 { font-size:15px; font-weight:800; color:var(--danger); margin-bottom:8px; }
-.warn-card p  { font-size:13px; color:var(--text-mid); line-height:1.7; }
-.contact-card { background:var(--white); border-radius:var(--r); box-shadow:var(--shadow); padding:18px; margin-bottom:14px; border:1.5px solid rgba(13,79,60,0.05); }
-.contact-title { font-size:13px; font-weight:700; color:var(--text); margin-bottom:12px; }
-.contact-item { display:flex; align-items:center; gap:12px; padding:10px; background:rgba(13,79,60,0.04); border-radius:10px; margin-bottom:8px; cursor:pointer; }
-.contact-item:last-child { margin:0; }
-.contact-ico { width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,var(--green-light),var(--green)); display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
-.contact-text { font-size:13px; font-weight:600; color:var(--text); }
-.contact-sub  { font-size:11px; color:var(--text-muted); margin-top:2px; }
-.scan-again-btn {
-  width:100%; padding:16px; border-radius:var(--r-pill);
-  background:linear-gradient(135deg,var(--green-glow),var(--green-light));
-  border:none; color:#fff; font-family:inherit; font-size:17px; font-weight:700;
-  cursor:pointer; box-shadow:0 6px 20px rgba(62,201,138,0.3);
-  margin-bottom:100px; transition:transform .15s;
-}
-.scan-again-btn:active { transform:scale(0.97); }
+/* FAIL */
+#s-fail{background:var(--off-white)}
+.fail-header{background:linear-gradient(165deg,#3a0d0d,#220a0a);padding:48px 20px 24px;flex-shrink:0}
+.fail-badge{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.08);border-radius:14px;padding:14px 16px;border:1px solid rgba(231,76,60,0.2)}
+.fail-icon{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#c0392b,#e74c3c);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.fail-badge h3{font-size:20px;font-weight:900;color:#e74c3c}
+.fail-badge p{font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px}
+.fail-body{flex:1;overflow-y:auto;padding:20px 18px 100px}
+.warn-card{background:rgba(192,57,43,0.06);border:1.5px solid rgba(192,57,43,0.15);border-radius:var(--r);padding:18px;margin-bottom:14px}
+.warn-card h4{font-size:15px;font-weight:800;color:var(--danger);margin-bottom:8px}
+.warn-card p{font-size:13px;color:var(--text-mid);line-height:1.7}
+.contact-card{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;margin-bottom:14px;border:1.5px solid rgba(13,79,60,0.05)}
+.contact-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px}
+.contact-item{display:flex;align-items:center;gap:12px;padding:10px;background:rgba(13,79,60,0.04);border-radius:10px;margin-bottom:8px;cursor:pointer}
+.contact-item:last-child{margin:0}
+.contact-ico{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--green-light),var(--green));display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.contact-text{font-size:13px;font-weight:600;color:var(--text)}
+.contact-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
+.scan-again-btn{width:100%;padding:16px;border-radius:var(--r-pill);background:linear-gradient(135deg,var(--green-glow),var(--green-light));border:none;color:#fff;font-family:inherit;font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(62,201,138,0.3);margin-bottom:100px}
 
-/* ── BOTTOM NAV ────────────────────────────── */
-.bottom-nav {
-  position:absolute; bottom:0; left:0; right:0; height:78px;
-  background:rgba(255,255,255,0.98); backdrop-filter:blur(16px);
-  border-top:1px solid rgba(13,79,60,0.08); display:flex;
-  align-items:center; justify-content:space-around; padding-bottom:14px;
-  box-shadow:0 -4px 20px rgba(13,79,60,0.06); z-index:10;
-}
-.nav-item { display:flex; flex-direction:column; align-items:center; gap:3px; padding:6px 16px; cursor:pointer; font-size:10px; color:var(--text-muted); font-weight:500; }
-.nav-item.active { color:var(--green); }
-.nav-item svg { width:20px; height:20px; }
-.nav-dot { width:4px; height:4px; border-radius:2px; background:var(--green); margin:2px auto 0; }
-
-/* ── UTILS ─────────────────────────────────── */
-.scrollable { -webkit-overflow-scrolling:touch; }
-.scrollable::-webkit-scrollbar { display:none; }
-.hidden { display:none !important; }
-.toast {
-  position:fixed; bottom:90px; left:50%; transform:translateX(-50%);
-  background:rgba(13,79,60,0.95); color:#fff; padding:10px 20px;
-  border-radius:var(--r-pill); font-size:13px; font-weight:600;
-  z-index:999; opacity:0; transition:opacity .3s; pointer-events:none;
-  white-space:nowrap;
-}
-.toast.show { opacity:1; }
+.scrollable{-webkit-overflow-scrolling:touch}
+.scrollable::-webkit-scrollbar{display:none}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(13,79,60,0.95);color:#fff;padding:10px 20px;border-radius:var(--r-pill);font-size:13px;font-weight:600;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1}
 </style>
 </head>
 <body>
 <div class="app">
 
-<!-- ═══ SETUP (API KEY) ═══════════════════════════════ -->
+<!-- SETUP -->
 <div class="screen active" id="s-setup">
-  <svg class="setup-shield" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="45" cy="45" r="44" fill="rgba(62,201,138,0.08)"/>
+  <svg class="setup-shield" viewBox="0 0 90 90" fill="none">
     <path d="M45 6L80 20L80 48C80 65 64 76 45 84C26 76 10 65 10 48L10 20Z" fill="url(#sg)" stroke="rgba(62,201,138,0.5)" stroke-width="1"/>
     <path d="M29 49L41 61L61 39" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
     <defs><linearGradient id="sg" x1="10" y1="6" x2="80" y2="84" gradientUnits="userSpaceOnUse"><stop stop-color="#3ec98a"/><stop offset="1" stop-color="#0d4f3c"/></linearGradient></defs>
@@ -439,17 +243,14 @@ html, body {
   <div class="setup-title">طمّني</div>
   <div class="setup-sub">أدخل مفتاح Claude API لتفعيل<br>التعرف الذكي على المنتجات</div>
   <div class="setup-card">
-    <label class="setup-label">مفتاح API (Claude)</label>
+    <label class="setup-label">Claude API Key</label>
     <input class="setup-input" id="api-key-input" type="password" placeholder="sk-ant-..." dir="ltr">
-    <div class="setup-hint">
-      احصل على مفتاح من console.anthropic.com<br>
-      يُحفظ محلياً على جهازك فقط ولا يُرسل لأي جهة أخرى
-    </div>
+    <div class="setup-hint">Get your key from console.anthropic.com — saved locally on your device only.</div>
     <button class="setup-btn" onclick="saveKey()">ابدأ الاستخدام ←</button>
   </div>
 </div>
 
-<!-- ═══ HOME ══════════════════════════════════════════ -->
+<!-- HOME -->
 <div class="screen" id="s-home">
   <div class="home-header">
     <div class="header-top">
@@ -457,15 +258,15 @@ html, body {
         <svg viewBox="0 0 34 34" fill="none"><path d="M17 2L30 7.5V17C30 24 24 29 17 32C10 29 4 24 4 17V7.5Z" fill="url(#hl)"/><path d="M11 18L15.5 22.5L23 14" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><defs><linearGradient id="hl" x1="4" y1="2" x2="30" y2="32" gradientUnits="userSpaceOnUse"><stop stop-color="#3ec98a"/><stop offset="1" stop-color="#0d4f3c"/></linearGradient></defs></svg>
         <span class="header-logo-name">طمّني</span>
       </div>
-      <button class="header-settings" onclick="logout()" title="تسجيل الخروج / تغيير المفتاح">
+      <button class="header-settings" onclick="logout()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
       </button>
     </div>
     <div class="header-title">مرحباً بك في طمّني 👋</div>
-    <div class="header-sub">اختر الفئة وصوّر المنتج للتحقق من اعتماده</div>
+    <div class="header-sub">صوّر المنتج — نتعرف عليه ونخبرك فوراً</div>
   </div>
   <div class="home-body scrollable">
-    <div class="section-lbl" style="margin-bottom:12px">اختر الفئة للمسح</div>
+    <div class="section-lbl">اختر الفئة</div>
     <div class="cat-row">
       <div class="cat-card cat-food" onclick="startScan('food')">
         <div class="cat-icon">🍎</div>
@@ -478,16 +279,13 @@ html, body {
         <div class="cat-desc">أدوية · مكملات<br>مستلزمات طبية</div>
       </div>
     </div>
-    <div class="section-lbl">قاعدة البيانات التجريبية</div>
+    <div class="section-lbl">المنتجات التجريبية</div>
     <div class="db-strip">
-      <div class="db-stat"><div class="db-num">٦</div><div class="db-lbl">منتج مسجّل</div></div>
+      <div class="db-stat"><div class="db-num">٧</div><div class="db-lbl">منتج مسجّل</div></div>
       <div class="db-stat"><div class="db-num">٢</div><div class="db-lbl">فئة</div></div>
       <div class="db-stat"><div class="db-num">تجريبي</div><div class="db-lbl">الوضع</div></div>
     </div>
-    <div class="section-lbl">المنتجات المسجلة في النسخة التجريبية</div>
-    <div class="m-card" style="margin-bottom:0">
-      <div id="demo-products-list"></div>
-    </div>
+    <div class="m-card"><div id="demo-list"></div></div>
   </div>
   <div class="bottom-nav">
     <div class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>الرئيسية<div class="nav-dot"></div></div>
@@ -497,21 +295,17 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SCAN ═══════════════════════════════════════════ -->
+<!-- SCAN -->
 <div class="screen" id="s-scan">
   <div class="scan-top">
-    <button class="back-btn" onclick="goTo('s-home')">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
-    </button>
+    <button class="back-btn" onclick="goTo('s-home')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
     <span class="scan-title">مسح المنتج</span>
     <span class="scan-badge" id="scan-cat-badge">🍎 الأغذية</span>
   </div>
   <div class="scan-area">
     <div class="scan-placeholder" id="scan-placeholder">
-      <div class="scan-corner sc-tr"></div>
-      <div class="scan-corner sc-tl"></div>
-      <div class="scan-corner sc-br"></div>
-      <div class="scan-corner sc-bl"></div>
+      <div class="scan-corner sc-tr"></div><div class="scan-corner sc-tl"></div>
+      <div class="scan-corner sc-br"></div><div class="scan-corner sc-bl"></div>
       <div class="scan-line"></div>
     </div>
     <img class="preview-img" id="preview-img" alt="">
@@ -519,30 +313,27 @@ html, body {
   </div>
   <div class="scan-panel">
     <div class="scan-tabs">
-      <button class="scan-tab active" id="tab-camera" onclick="switchTab('camera')">📷 الكاميرا</button>
+      <button class="scan-tab active" id="tab-camera">📷 الكاميرا</button>
       <button class="scan-tab" id="tab-manual" onclick="goManual()">✏️ إدخال يدوي</button>
     </div>
     <div class="scan-actions">
-      <label for="gallery-input" class="gallery-btn" title="اختر صورة">🖼️</label>
+      <label for="gallery-input" class="gallery-btn" title="معرض الصور">🖼️</label>
       <label for="file-input" class="capture-btn" id="capture-btn">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
-  تحقق الآن
-</label>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
         تحقق الآن
-      </button>
-      <button class="gallery-btn" title="فلاش">⚡</button>
+      </label>
+      <button class="gallery-btn">⚡</button>
     </div>
   </div>
   <input type="file" id="file-input" accept="image/*" capture="environment">
   <input type="file" id="gallery-input" accept="image/*">
 </div>
 
-<!-- ═══ ANALYZING ═══════════════════════════════════════ -->
+<!-- ANALYZING -->
 <div class="screen" id="s-analyzing">
   <img class="analyzing-img" id="analyzing-img" alt="">
   <div class="analyzing-ring"></div>
-  <div class="analyzing-title">جاري تحليل الصورة...</div>
+  <div class="analyzing-title">جاري التعرف على المنتج...</div>
   <div class="analyzing-steps">
     <div class="a-step" id="step-quality"><div class="a-dot"></div>فحص جودة الصورة</div>
     <div class="a-step" id="step-detect"><div class="a-dot"></div>التعرف على المنتج</div>
@@ -550,20 +341,55 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ QUALITY CHECK (bad photo) ══════════════════════ -->
+<!-- CONFIRM (new clean screen) -->
+<div class="screen" id="s-confirm">
+  <div class="confirm-header" style="position:relative">
+    <div class="confirm-top">
+      <button class="back-btn" onclick="goTo('s-scan')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div>
+        <div class="confirm-title">هل هذا هو المنتج؟</div>
+        <div class="confirm-sub">تأكد ثم اضغط «نعم، ابحث عنه»</div>
+      </div>
+    </div>
+  </div>
+  <div class="confirm-body scrollable">
+    <img class="confirm-photo" id="confirm-photo" alt="">
+    <div class="low-confidence-banner" id="low-conf-banner" style="display:none">
+      ⚠️ الصورة غير واضحة تماماً — تحقق من الاسم قبل المتابعة
+    </div>
+    <div class="detected-card">
+      <div class="detected-card-top">
+        <div class="detected-icon" id="conf-icon">💧</div>
+        <div>
+          <div class="detected-name" id="conf-name">-</div>
+          <div class="detected-meta" id="conf-brand">-</div>
+        </div>
+      </div>
+      <div class="detected-details">
+        <div class="d-row"><span class="d-key">الشركة</span><span class="d-val" id="conf-company">-</span></div>
+        <div class="d-row"><span class="d-key">الحجم</span><span class="d-val" id="conf-size">-</span></div>
+        <div class="d-row"><span class="d-key">الفئة</span><span class="d-val" id="conf-cat">-</span></div>
+      </div>
+    </div>
+    <button class="confirm-yes-btn" onclick="confirmAndSearch()">
+      <span>✓</span> نعم، ابحث عنه
+    </button>
+    <button class="confirm-no-btn" onclick="goManual()">تعديل البيانات يدوياً</button>
+  </div>
+</div>
+
+<!-- QUALITY (bad photo) -->
 <div class="screen" id="s-quality">
   <div class="quality-header">
     <div class="quality-top">
-      <button class="back-btn" onclick="goTo('s-scan')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
-      <span class="quality-title">فحص جودة الصورة</span>
+      <button class="back-btn" onclick="goTo('s-scan')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <span class="quality-title">الصورة غير واضحة</span>
     </div>
-    <div class="quality-result" id="quality-result-banner">
-      <div class="quality-icon bad" id="quality-icon">⚠️</div>
-      <div class="quality-text">
-        <h3 id="quality-title">الصورة غير واضحة</h3>
-        <p id="quality-sub">يرجى إعادة التصوير باتباع النصائح أدناه</p>
+    <div class="quality-result">
+      <div class="quality-icon bad">⚠️</div>
+      <div class="quality-text" style="color:#fff">
+        <div style="font-size:16px;font-weight:800" id="quality-title">يتعذر التعرف على المنتج</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px">حاول إعادة التصوير أو أدخل البيانات يدوياً</div>
       </div>
     </div>
   </div>
@@ -571,97 +397,77 @@ html, body {
     <div class="q-card">
       <div class="q-card-title"><span>📷</span> الصورة الملتقطة</div>
       <img class="detected-img" id="quality-img" alt="">
-      <div id="quality-issue" style="font-size:13px;color:var(--danger);font-weight:600;padding:8px 0;"></div>
+      <div id="quality-issue" style="font-size:13px;color:var(--danger);font-weight:600;padding:6px 0"></div>
     </div>
     <div class="q-card">
-      <div class="q-card-title"><span>💡</span> نصائح لصورة أفضل</div>
+      <div class="q-card-title"><span>💡</span> نصائح</div>
       <ul class="tips-list" id="quality-tips">
-        <li>تأكد من ظهور اسم المنتج والشركة في الصورة</li>
-        <li>التقط الصورة في مكان جيد الإضاءة</li>
+        <li>تأكد من ظهور اسم المنتج بوضوح في الصورة</li>
+        <li>صوّر في إضاءة جيدة</li>
         <li>اجعل المنتج في مركز الإطار</li>
-        <li>امسح الصورة إذا كانت ضبابية أو مائلة</li>
       </ul>
     </div>
     <div class="quality-actions">
       <button class="btn-retake" onclick="goTo('s-scan')">📷 إعادة التصوير</button>
-      <button class="btn-confirm" onclick="proceedToManual()">المتابعة يدوياً ←</button>
+      <button class="btn-confirm" onclick="goManual()">إدخال يدوي ←</button>
     </div>
   </div>
 </div>
 
-<!-- ═══ MANUAL ENTRY ═════════════════════════════════════ -->
+<!-- MANUAL (fallback) -->
 <div class="screen" id="s-manual">
   <div class="manual-header">
-    <div class="quality-top" style="margin-bottom:8px">
-      <button class="back-btn" onclick="goTo('s-scan')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
-      <div>
-        <div class="manual-title">تفاصيل المنتج</div>
-        <div class="manual-sub">راجع البيانات المكتشفة أو أدخلها يدوياً</div>
-      </div>
+    <div class="quality-top" style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+      <button class="back-btn" onclick="goTo('s-scan')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div><div class="manual-title">إدخال يدوي</div><div class="manual-sub">أدخل بيانات المنتج</div></div>
     </div>
   </div>
   <div class="manual-body scrollable">
     <div class="m-card">
-      <div class="m-card-title"><span>📷</span> صورة المنتج</div>
-      <img class="m-preview" id="manual-img" alt="">
-    </div>
-    <div class="m-card">
       <div class="m-card-title"><span>🏷️</span> بيانات المنتج</div>
+      <img class="m-preview" id="manual-img" alt="" style="display:none">
       <div class="m-field">
         <label class="m-label">اسم المنتج / العلامة التجارية *</label>
-        <input class="m-input" id="m-brand" type="text" placeholder="مثال: لبن المراعي بالفراولة" dir="rtl">
+        <input class="m-input" id="m-brand" type="text" placeholder="مثال: دجلة، مراعي، بنادول..." dir="rtl">
       </div>
       <div class="m-field">
-        <label class="m-label">الشركة المصنّعة / المستوردة</label>
-        <input class="m-input" id="m-company" type="text" placeholder="مثال: شركة المراعي" dir="rtl">
+        <label class="m-label">الشركة (اختياري)</label>
+        <input class="m-input" id="m-company" type="text" placeholder="مثال: شركة السلوى" dir="rtl">
       </div>
     </div>
     <div class="m-card">
-      <div class="m-card-title"><span>📦</span> الكمية والحجم</div>
-      <div class="m-field">
-        <label class="m-label">الحجم المطبوع على المنتج</label>
-        <div class="size-grid" id="size-grid">
-          <div class="size-opt" onclick="selectSize(this,'250ml')">250 ml</div>
-          <div class="size-opt" onclick="selectSize(this,'500ml')">500 ml</div>
-          <div class="size-opt" onclick="selectSize(this,'1L')">1 L</div>
-          <div class="size-opt" onclick="selectSize(this,'1.5L')">1.5 L</div>
-          <div class="size-opt" onclick="selectSize(this,'2L')">2 L</div>
-          <div class="size-opt" onclick="selectSize(this,'other')">أخرى</div>
-        </div>
-        <input class="m-input" id="m-size" type="text" placeholder="أو اكتب الحجم مباشرة (مثال: 330 ml)" dir="ltr" style="text-align:left">
+      <div class="m-card-title"><span>📦</span> الحجم</div>
+      <div class="size-grid">
+        <div class="size-opt" onclick="selectSize(this,'250ml')">250 ml</div>
+        <div class="size-opt" onclick="selectSize(this,'500ml')">500 ml</div>
+        <div class="size-opt" onclick="selectSize(this,'1L')">1 L</div>
+        <div class="size-opt" onclick="selectSize(this,'1.5L')">1.5 L</div>
+        <div class="size-opt" onclick="selectSize(this,'2L')">2 L</div>
+        <div class="size-opt" onclick="selectSize(this,'other')">أخرى</div>
       </div>
+      <input class="m-input" id="m-size" type="text" placeholder="أو اكتب الحجم" dir="ltr" style="text-align:left">
     </div>
     <button class="m-search-btn" onclick="doLookup()">🔍 ابحث في قاعدة البيانات</button>
   </div>
 </div>
 
-<!-- ═══ SUCCESS ═══════════════════════════════════════════ -->
+<!-- SUCCESS -->
 <div class="screen" id="s-success">
   <div class="success-header">
-    <div class="quality-top" style="margin-bottom:14px">
-      <button class="back-btn" onclick="goTo('s-home')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
+    <div class="result-top">
+      <button class="back-btn" onclick="goTo('s-home')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
       <span style="font-size:16px;font-weight:700;color:#fff">نتيجة التحقق</span>
     </div>
     <div class="success-badge">
       <div class="success-icon">✅</div>
-      <div>
-        <h3>معتمد ومسجّل</h3>
-        <p>موجود في قاعدة البيانات الرسمية</p>
-      </div>
+      <div><h3>معتمد ومسجّل</h3><p>موجود في قاعدة البيانات الرسمية</p></div>
     </div>
   </div>
   <div class="result-body scrollable">
     <div class="r-card">
       <div class="r-card-header">
-        <div class="r-product-icon" id="r-icon">🥛</div>
-        <div>
-          <div class="r-product-name" id="r-name">-</div>
-          <span class="r-product-brand" id="r-brand">-</span>
-        </div>
+        <div class="r-product-icon" id="r-icon">💧</div>
+        <div><div class="r-product-name" id="r-name">-</div><span class="r-product-brand" id="r-brand">-</span></div>
       </div>
       <div class="r-row"><span class="r-key">🏢 الشركة المستوردة</span><span class="r-val" id="r-company">-</span></div>
       <div class="r-row"><span class="r-key">🌍 بلد المنشأ</span><span class="r-val" id="r-origin">-</span></div>
@@ -671,20 +477,8 @@ html, body {
       <div class="r-row"><span class="r-key">✔️ الحالة</span><span class="r-val success">ساري ومعتمد ✓</span></div>
     </div>
     <div class="cert-card">
-      <div class="cert-top">
-        <div class="cert-icon">🏅</div>
-        <div>
-          <div class="cert-title">شهادة الاعتماد الرسمية</div>
-          <div class="cert-sub">صادرة من مركز الرقابة على الأغذية والأدوية</div>
-        </div>
-      </div>
-      <div class="cert-num-block">
-        <div>
-          <div class="cert-num-label">رقم الاعتماد الرسمي</div>
-          <div class="cert-num-value" id="r-cert-num">FDCC-2026-00001</div>
-        </div>
-        <div style="font-size:24px;color:rgba(255,255,255,0.25)">🔏</div>
-      </div>
+      <div class="cert-top"><div class="cert-icon">🏅</div><div><div class="cert-title">شهادة الاعتماد الرسمية</div><div class="cert-sub">صادرة من مركز الرقابة على الأغذية والأدوية</div></div></div>
+      <div class="cert-num-block"><div><div class="cert-num-label">رقم الاعتماد الرسمي</div><div class="cert-num-value" id="r-cert-num">FDCC-2026-00001</div></div><div style="font-size:24px;color:rgba(255,255,255,0.25)">🔏</div></div>
     </div>
     <div class="result-actions">
       <button class="r-action share"><span class="r-action-icon">📤</span>مشاركة</button>
@@ -694,28 +488,20 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ FAIL ════════════════════════════════════════════ -->
+<!-- FAIL -->
 <div class="screen" id="s-fail">
   <div class="fail-header">
-    <div class="quality-top" style="margin-bottom:14px">
-      <button class="back-btn" onclick="goTo('s-home')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
+    <div class="result-top" style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+      <button class="back-btn" onclick="goTo('s-home')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
       <span style="font-size:16px;font-weight:700;color:rgba(255,255,255,0.8)">نتيجة التحقق</span>
     </div>
     <div class="fail-badge">
       <div class="fail-icon">❌</div>
-      <div>
-        <h3>غير موجود</h3>
-        <p>لم يُعثر على هذا المنتج في قاعدة البيانات المعتمدة</p>
-      </div>
+      <div><h3>غير موجود</h3><p>لم يُعثر على هذا المنتج في قاعدة البيانات المعتمدة</p></div>
     </div>
   </div>
   <div class="fail-body scrollable">
-    <div class="warn-card">
-      <h4>⚠️ تنبيه مهم</h4>
-      <p>لم يتم العثور على هذا المنتج ضمن قاعدة البيانات المعتمدة حالياً. هذا لا يعني بالضرورة أن المنتج ضار، لكن يُنصح بعدم استخدامه والتواصل مع الجهة الرقابية للتحقق.</p>
-    </div>
+    <div class="warn-card"><h4>⚠️ تنبيه مهم</h4><p>لم يتم العثور على هذا المنتج ضمن قاعدة البيانات المعتمدة حالياً. يُنصح بعدم الاستخدام والتواصل مع الجهة الرقابية المختصة.</p></div>
     <div class="contact-card">
       <div class="contact-title">📞 تواصل مع الجهات الرقابية</div>
       <div class="contact-item"><div class="contact-ico">🏛️</div><div><div class="contact-text">مركز الرقابة على الأغذية والأدوية</div><div class="contact-sub">للإبلاغ عن منتجات مشبوهة</div></div></div>
@@ -728,36 +514,31 @@ html, body {
 <div class="toast" id="toast"></div>
 
 <script>
-// ── Mock Database ──────────────────────────────────────
+// ── Database ────────────────────────────────────────────
 const DB = [
-  { id:"FDCC-2026-00001", name:"لبن المراعي بالفراولة",    brand:"Almarai",    company:"شركة المراعي",         origin:"المملكة العربية السعودية", category:"🥛 ألبان ومشروبات",     size:"250ml",  icon:"🥛",  keywords:["مراعي","almarai","فراولة","strawberry","لبن","حليب"] },
-  { id:"FDCC-2026-00002", name:"عصير تروبيكانا برتقال",    brand:"Tropicana",  company:"شركة PepsiCo MENA",   origin:"الإمارات العربية المتحدة",  category:"🍊 عصائر ومشروبات",    size:"1L",     icon:"🍊",  keywords:["تروبيكانا","tropicana","برتقال","orange","عصير"] },
-  { id:"FDCC-2026-00003", name:"مياه بيور المعدنية",       brand:"Pure",       company:"شركة بيور",            origin:"ليبيا",                    category:"💧 مياه معبأة",         size:"500ml",  icon:"💧",  keywords:["بيور","pure","مياه","ماء","water","معدنية"] },
-  { id:"FDCC-2026-00004", name:"شوكولاتة كيت كات",         brand:"KitKat",     company:"شركة نستله MENA",     origin:"المملكة العربية السعودية", category:"🍫 شوكولاتة وحلويات",   size:"41.5g",  icon:"🍫",  keywords:["كيت كات","kitkat","kit kat","شوكولاتة","نستله","nestle"] },
-  { id:"FDPCC-2026-00001", name:"بنادول أكتيف فاست",       brand:"Panadol",    company:"شركة GSK Arabia",     origin:"المملكة العربية السعودية", category:"💊 أدوية مسكنة للألم",  size:"500mg",  icon:"💊",  keywords:["بنادول","panadol","باراسيتامول","paracetamol","مسكن"] },
-{ id:"FDPCC-2026-00002", name:"فيتامين سي 1000 mg", brand:"Redoxon", company:"شركة Bayer Arabia", origin:"الإمارات العربية المتحدة", category:"💊 مكملات غذائية", size:"1000mg", icon:"🟡", keywords:["فيتامين سي","vitamin c","ريدوكسون","redoxon","bayer"] },
-  { id:"FDCC-2026-00008", name:"مياه دجلة المعدنية", brand:"Dajla", company:"شركة السلوى للصناعات الغذائية", origin:"ليبيا", category:"💧 مياه معبأة", size:"500ml", icon:"💧", keywords:["دجلة","dajla","مياه","ماء","water","سلوى","assalwa"] },
+  { id:"FDCC-2026-00001", name:"لبن المراعي بالفراولة",    brand:"Almarai",   company:"شركة المراعي",                    origin:"المملكة العربية السعودية", category:"🥛 ألبان ومشروبات",    size:"250ml", icon:"🥛", keywords:["مراعي","almarai","فراولة","strawberry","لبن","حليب"] },
+  { id:"FDCC-2026-00002", name:"عصير تروبيكانا برتقال",    brand:"Tropicana", company:"شركة PepsiCo MENA",               origin:"الإمارات العربية المتحدة", category:"🍊 عصائر ومشروبات",   size:"1L",    icon:"🍊", keywords:["تروبيكانا","tropicana","برتقال","orange","عصير"] },
+  { id:"FDCC-2026-00003", name:"مياه بيور المعدنية",       brand:"Pure",      company:"شركة بيور",                       origin:"ليبيا",                    category:"💧 مياه معبأة",        size:"500ml", icon:"💧", keywords:["بيور","pure","مياه","ماء","water","معدنية"] },
+  { id:"FDCC-2026-00004", name:"شوكولاتة كيت كات",         brand:"KitKat",    company:"شركة نستله MENA",                 origin:"المملكة العربية السعودية", category:"🍫 شوكولاتة وحلويات",  size:"41.5g", icon:"🍫", keywords:["كيت كات","kitkat","kit kat","شوكولاتة","نستله","nestle"] },
+  { id:"FDPCC-2026-00001", name:"بنادول أكتيف فاست",       brand:"Panadol",   company:"شركة GSK Arabia",                 origin:"المملكة العربية السعودية", category:"💊 أدوية مسكنة",       size:"500mg", icon:"💊", keywords:["بنادول","panadol","باراسيتامول","paracetamol","مسكن"] },
+  { id:"FDPCC-2026-00002", name:"فيتامين سي 1000 mg",     brand:"Redoxon",   company:"شركة Bayer Arabia",               origin:"الإمارات العربية المتحدة", category:"💊 مكملات غذائية",     size:"1000mg",icon:"🟡", keywords:["فيتامين سي","vitamin c","ريدوكسون","redoxon","bayer"] },
+  { id:"FDCC-2026-00008", name:"مياه دجلة المعدنية",       brand:"Dajla",     company:"شركة السلوى للصناعات الغذائية",   origin:"ليبيا",                    category:"💧 مياه معبأة",        size:"500ml", icon:"💧", keywords:["دجلة","dajla","مياه","ماء","water","سلوى","assalwa"] },
 ];
 
-// Populate demo products list
-document.getElementById('demo-products-list').innerHTML = DB.map(p => `
-  <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(13,79,60,0.06);">
+// Populate home list
+document.getElementById('demo-list').innerHTML = DB.map(p=>`
+  <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(13,79,60,0.06)">
     <span style="font-size:22px">${p.icon}</span>
-    <div style="flex:1">
-      <div style="font-size:13px;font-weight:700;color:var(--text)">${p.name}</div>
-      <div style="font-size:11px;color:var(--text-muted)">${p.brand} · ${p.size}</div>
-    </div>
+    <div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--text)">${p.name}</div><div style="font-size:11px;color:var(--text-muted)">${p.brand} · ${p.size}</div></div>
     <span style="font-size:11px;font-weight:600;color:var(--green-light);background:rgba(45,154,116,0.1);padding:2px 8px;border-radius:20px">✓ معتمد</span>
-  </div>
-`).join('') + `<div style="font-size:11px;color:var(--text-muted);padding:8px 0 0;text-align:center">أي منتج آخر → نتيجة «غير موجود»</div>`;
+  </div>`).join('')+`<div style="font-size:11px;color:var(--text-muted);padding:8px 0 0;text-align:center">أي منتج آخر → غير موجود</div>`;
 
-// ── State ──────────────────────────────────────────────
+// ── State ───────────────────────────────────────────────
 let currentScreen = 's-setup';
 let currentCategory = 'food';
 let capturedImageB64 = null;
-let selectedSize = '';
+let detectedProduct = null;
 let apiKey = localStorage.getItem('tammini_key') || '';
-
 if (apiKey) goTo('s-home');
 
 function saveKey() {
@@ -768,7 +549,7 @@ function saveKey() {
   goTo('s-home');
 }
 function logout() {
-  if (confirm('هل تريد تغيير مفتاح API؟')) {
+  if (confirm('Change API key?')) {
     localStorage.removeItem('tammini_key');
     apiKey = '';
     document.getElementById('api-key-input').value = '';
@@ -776,22 +557,16 @@ function logout() {
   }
 }
 
-// ── Navigation ─────────────────────────────────────────
 function goTo(id) {
-  const cur  = document.getElementById(currentScreen);
+  const cur = document.getElementById(currentScreen);
   const next = document.getElementById(id);
   cur.classList.add('out');
-  setTimeout(() => {
-    cur.classList.remove('active','out');
-    next.classList.add('active');
-    currentScreen = id;
-  }, 280);
+  setTimeout(() => { cur.classList.remove('active','out'); next.classList.add('active'); currentScreen = id; }, 280);
 }
 
-// ── Scan ───────────────────────────────────────────────
 function startScan(cat) {
   currentCategory = cat;
-  document.getElementById('scan-cat-badge').textContent = cat === 'food' ? '🍎 الأغذية' : '💊 الأدوية';
+  document.getElementById('scan-cat-badge').textContent = cat==='food' ? '🍎 الأغذية' : '💊 الأدوية';
   capturedImageB64 = null;
   document.getElementById('preview-img').style.display = 'none';
   document.getElementById('scan-placeholder').style.display = 'flex';
@@ -799,29 +574,22 @@ function startScan(cat) {
   goTo('s-scan');
 }
 
-function triggerCamera() {
-  document.getElementById('file-input').click();
-}
-function switchTab(t) {
-  document.getElementById('tab-camera').classList.toggle('active', t==='camera');
-  document.getElementById('tab-manual').classList.toggle('active', t==='manual');
-}
 function goManual() {
-  document.getElementById('m-brand').value = '';
-  document.getElementById('m-company').value = '';
-  document.getElementById('m-size').value = '';
-  document.getElementById('manual-img').src = capturedImageB64 || '';
-  if (!capturedImageB64) document.getElementById('manual-img').style.display = 'none';
+  document.getElementById('m-brand').value = detectedProduct ? (detectedProduct.name || detectedProduct.brand || '') : '';
+  document.getElementById('m-company').value = detectedProduct ? (detectedProduct.company || '') : '';
+  document.getElementById('m-size').value = detectedProduct ? (detectedProduct.size || '') : '';
+  const mi = document.getElementById('manual-img');
+  if (capturedImageB64) { mi.src = capturedImageB64; mi.style.display = 'block'; }
   goTo('s-manual');
 }
+
 function selectSize(el, val) {
   document.querySelectorAll('.size-opt').forEach(e => e.classList.remove('selected'));
   el.classList.add('selected');
-  selectedSize = val;
   if (val !== 'other') document.getElementById('m-size').value = val;
 }
 
-// Handle file selection
+// File inputs
 document.getElementById('file-input').addEventListener('change', handleFile);
 document.getElementById('gallery-input').addEventListener('change', handleFile);
 
@@ -830,161 +598,145 @@ function handleFile(e) {
   if (!file) return;
   const reader = new FileReader();
   reader.onload = ev => {
-    const b64full = ev.target.result;
-    capturedImageB64 = b64full;
+    capturedImageB64 = ev.target.result;
     const img = document.getElementById('preview-img');
-    img.src = b64full;
+    img.src = capturedImageB64;
     img.style.display = 'block';
     document.getElementById('scan-placeholder').style.display = 'none';
-    document.getElementById('scan-hint').textContent = 'صورة جاهزة — اضغط «تحقق الآن»';
     e.target.value = '';
-    // Auto-analyze
-    analyzeImage(b64full);
+    analyzeImage(capturedImageB64);
   };
   reader.readAsDataURL(file);
 }
 
-// ── AI Analysis ────────────────────────────────────────
+// ── AI Analysis ─────────────────────────────────────────
 async function analyzeImage(b64full) {
   goTo('s-analyzing');
   document.getElementById('analyzing-img').src = b64full;
   setStep('step-quality','active');
 
   const b64 = b64full.split(',')[1];
-  const mimeMatch = b64full.match(/^data:(.+);base64/);
-  const mime = mimeMatch ? mimeMatch[1] : 'image/jpeg';
+  const mime = (b64full.match(/^data:(.+);base64/) || ['','image/jpeg'])[1];
 
-  const prompt = `You are analyzing a product image for a Libyan consumer protection app.
+  const prompt = `You are analyzing a product photo for a Libyan consumer protection app called Tammini.
 
-Respond ONLY with valid JSON, no markdown, no extra text. Use this exact structure:
+Look at the image and respond ONLY with valid JSON, no markdown, no extra text:
 {
   "imageQuality": {
-    "score": 0-100,
-    "isAcceptable": true/false,
-    "issues": ["list of issues if any"],
-    "tips": ["list of tips to improve"]
+    "isAcceptable": true or false,
+    "confidence": 0-100,
+    "issue": "one short sentence if not acceptable, empty string if acceptable"
   },
   "product": {
-    "detected": true/false,
-    "name": "full product name in Arabic if possible",
-    "brand": "brand name",
-    "company": "manufacturer/company name",
-    "size": "size/volume/weight as written on package",
+    "detected": true or false,
+    "name": "product name in Arabic if visible, else in English",
+    "brand": "brand name exactly as written on packaging",
+    "company": "manufacturer or company name if visible",
+    "size": "size/volume exactly as written e.g. 500ml, 1L, 250g",
+    "icon": "one relevant emoji for this product type",
+    "category": "one of: مياه معبأة / ألبان ومشروبات / عصائر / شوكولاتة وحلويات / أغذية معلبة / أدوية / مكملات غذائية / مستلزمات طبية",
     "confidence": 0-100
   }
 }
 
-Image quality is acceptable if: product is visible, text is readable, image is not too blurry or dark.
-If it's not a product image, set detected=false and give quality tips.`;
+Image is acceptable if the product label is visible and readable. Not acceptable if too blurry, too dark, or no product visible.`;
 
   try {
-    await delay(600);
+    await delay(500);
     setStep('step-quality','done'); setStep('step-detect','active');
 
     const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type':'application/json', 'x-api-key': apiKey, 'anthropic-version':'2023-06-01' },
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01'},
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 800,
-        messages: [{
-          role: 'user',
-          content: [
-            { type:'image', source:{ type:'base64', media_type:mime, data:b64 } },
-            { type:'text',  text: prompt }
-          ]
-        }]
+        model:'claude-sonnet-4-20250514',
+        max_tokens:600,
+        messages:[{role:'user',content:[
+          {type:'image',source:{type:'base64',media_type:mime,data:b64}},
+          {type:'text',text:prompt}
+        ]}]
       })
     });
 
     const data = await resp.json();
     const raw = data.content[0].text;
-    const clean = raw.replace(/```json|```/g,'').trim();
-    const result = JSON.parse(clean);
+    const result = JSON.parse(raw.replace(/```json|```/g,'').trim());
 
     await delay(400);
     setStep('step-detect','done'); setStep('step-lookup','active');
-    await delay(600);
+    await delay(500);
     setStep('step-lookup','done');
-    await delay(400);
+    await delay(300);
 
-    // Quality check
     if (!result.imageQuality.isAcceptable) {
-      showQualityFail(result.imageQuality);
+      document.getElementById('quality-img').src = capturedImageB64;
+      document.getElementById('quality-issue').textContent = result.imageQuality.issue || '';
+      goTo('s-quality');
       return;
     }
 
-    // Good quality — go to manual entry with pre-filled data
     const p = result.product;
-    document.getElementById('m-brand').value   = p.name   || p.brand  || '';
-    document.getElementById('m-company').value = p.company || '';
-    document.getElementById('m-size').value    = p.size   || '';
-    document.getElementById('manual-img').src  = capturedImageB64;
-    document.getElementById('manual-img').style.display = 'block';
-    if (p.name || p.brand) document.getElementById('m-brand').classList.add('detected');
-    if (p.company)         document.getElementById('m-company').classList.add('detected');
-    goTo('s-manual');
-    showToast('تم التعرف على المنتج — راجع البيانات وأكّدها');
+    detectedProduct = p;
+
+    // Show confirm screen — no typing needed
+    document.getElementById('confirm-photo').src = capturedImageB64;
+    document.getElementById('conf-icon').textContent  = p.icon || '📦';
+    document.getElementById('conf-name').textContent  = p.name || p.brand || 'منتج غير معروف';
+    document.getElementById('conf-brand').textContent = p.brand || '';
+    document.getElementById('conf-company').textContent = p.company || 'غير محدد';
+    document.getElementById('conf-size').textContent  = p.size || 'غير محدد';
+    document.getElementById('conf-cat').textContent   = p.category || currentCategory === 'food' ? 'أغذية' : 'أدوية';
+
+    const lowConf = document.getElementById('low-conf-banner');
+    lowConf.style.display = (p.confidence < 70) ? 'flex' : 'none';
+
+    goTo('s-confirm');
 
   } catch(err) {
     console.error(err);
     setStep('step-detect','done'); setStep('step-lookup','done');
-    await delay(400);
-    // Fallback to manual
-    document.getElementById('manual-img').src = capturedImageB64;
-    document.getElementById('manual-img').style.display = 'block';
-    goTo('s-manual');
+    await delay(300);
+    goManual();
     showToast('تعذّر الاتصال — أدخل البيانات يدوياً');
   }
 }
 
-function showQualityFail(q) {
-  document.getElementById('quality-img').src = capturedImageB64;
-  document.getElementById('quality-issue').textContent = q.issues.join(' · ');
-  const tipsList = document.getElementById('quality-tips');
-  if (q.tips && q.tips.length) {
-    tipsList.innerHTML = q.tips.map(t => `<li>${t}</li>`).join('');
-  }
-  goTo('s-quality');
+// ── Confirm → Lookup ─────────────────────────────────────
+function confirmAndSearch() {
+  const p = detectedProduct;
+  if (!p) { goManual(); return; }
+  const searchTerm = (p.name + ' ' + p.brand).toLowerCase();
+  const match = findInDB(searchTerm);
+  showResult(match);
 }
 
-function proceedToManual() {
-  document.getElementById('m-brand').value = '';
-  document.getElementById('m-company').value = '';
-  document.getElementById('m-size').value = '';
-  document.getElementById('manual-img').src = capturedImageB64;
-  document.getElementById('manual-img').style.display = 'block';
-  goTo('s-manual');
-}
-
-// ── Lookup ─────────────────────────────────────────────
 function doLookup() {
-  const brand   = document.getElementById('m-brand').value.trim().toLowerCase();
-  const company = document.getElementById('m-company').value.trim().toLowerCase();
-  const size    = document.getElementById('m-size').value.trim();
-
+  const brand = document.getElementById('m-brand').value.trim();
   if (!brand) { showToast('يرجى إدخال اسم المنتج'); return; }
+  const match = findInDB(brand.toLowerCase());
+  showResult(match);
+}
 
-  const match = DB.find(p =>
-    p.keywords.some(k => brand.includes(k) || k.includes(brand.split(' ')[0]))
-  );
+function findInDB(searchTerm) {
+  return DB.find(p => p.keywords.some(k => searchTerm.includes(k) || k.includes(searchTerm.split(' ')[0])));
+}
 
+function showResult(match) {
   if (match) {
-    document.getElementById('r-icon').textContent     = match.icon;
-    document.getElementById('r-name').textContent     = match.name;
-    document.getElementById('r-brand').textContent    = match.brand;
-    document.getElementById('r-company').textContent  = match.company;
-    document.getElementById('r-origin').textContent   = match.origin;
-    document.getElementById('r-category').textContent = match.category;
-    document.getElementById('r-size').textContent     = size || match.size;
-    document.getElementById('r-cert-num').textContent = match.id;
+    document.getElementById('r-icon').textContent    = match.icon;
+    document.getElementById('r-name').textContent    = match.name;
+    document.getElementById('r-brand').textContent   = match.brand;
+    document.getElementById('r-company').textContent = match.company;
+    document.getElementById('r-origin').textContent  = match.origin;
+    document.getElementById('r-category').textContent= match.category;
+    document.getElementById('r-size').textContent    = match.size;
+    document.getElementById('r-cert-num').textContent= match.id;
     goTo('s-success');
   } else {
     goTo('s-fail');
   }
 }
 
-// ── Helpers ────────────────────────────────────────────
 function setStep(id, state) {
   const el = document.getElementById(id);
   el.classList.remove('active','done');
@@ -993,8 +745,7 @@ function setStep(id, state) {
 function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
 function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+  t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2800);
 }
 </script>
