@@ -523,8 +523,11 @@ html, body {
       <button class="scan-tab" id="tab-manual" onclick="goManual()">✏️ إدخال يدوي</button>
     </div>
     <div class="scan-actions">
-      <button class="gallery-btn" onclick="document.getElementById('gallery-input').click()" title="اختر صورة">🖼️</button>
-      <button class="capture-btn" id="capture-btn" onclick="triggerCamera()">
+      <label for="gallery-input" class="gallery-btn" title="اختر صورة">🖼️</label>
+      <label for="file-input" class="capture-btn" id="capture-btn">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+  تحقق الآن
+</label>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
         تحقق الآن
       </button>
