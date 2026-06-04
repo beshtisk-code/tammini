@@ -645,11 +645,11 @@ Image is acceptable if the product label is visible and readable. Not acceptable
     await delay(500);
     setStep('step-quality','done'); setStep('step-detect','active');
 
-   const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
       body: JSON.stringify({
-        model:'claude-sonnet-4-20250514',
+        model:'claude-haiku-4-5-20251001',
         max_tokens:600,
         messages:[{role:'user',content:[
           {type:'image',source:{type:'base64',media_type:mime,data:b64}},
@@ -659,6 +659,7 @@ Image is acceptable if the product label is visible and readable. Not acceptable
     });
 
     const data = await resp.json();
+    if (data.error) { showToast("API: " + data.error.message); goManual(); return; }
     const raw = data.content[0].text;
     const result = JSON.parse(raw.replace(/```json|```/g,'').trim());
 
@@ -697,7 +698,7 @@ Image is acceptable if the product label is visible and readable. Not acceptable
     setStep('step-detect','done'); setStep('step-lookup','done');
     await delay(300);
     goManual();
-    showToast('تعذّر الاتصال — أدخل البيانات يدوياً');
+    showToast('خطأ: ' + err.message);
   }
 }
 
