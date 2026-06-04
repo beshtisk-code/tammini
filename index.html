@@ -2,752 +2,583 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#0d4f3c">
-<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="theme-color" content="#0a1c38">
 <title>طمّني</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&family=Noto+Kufi+Arabic:wght@400;500;700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --green:#0d4f3c; --green-mid:#1a6b52; --green-light:#2d9a74; --green-glow:#3ec98a;
-  --gold:#c9a84c; --gold-light:#f0cc6e; --white:#ffffff; --off-white:#f8faf9;
-  --text:#0d1f19; --text-mid:#2c4a3e; --text-muted:#6b8c7e;
-  --danger:#c0392b; --success:#27ae60;
-  --r:16px; --r-sm:10px; --r-pill:50px; --shadow:0 4px 20px rgba(13,79,60,0.12);
-}
+:root{--ink:#11294d;--ink-deep:#0a1c38;--gold:#bd9742;--gold-light:#e0c074;--paper:#f4f1e9;--card:#ffffff;--text:#16243c;--text-muted:#5c6a82;--line:rgba(17,41,77,0.10);--success:#1a8a5b;--danger:#7a2b22;--radius:13px}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;font-family:'Tajawal',sans-serif;background:var(--green);color:var(--text);overflow:hidden}
-.app{max-width:430px;margin:0 auto;height:100vh;background:var(--off-white);position:relative;overflow:hidden;display:flex;flex-direction:column}
-.screen{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s cubic-bezier(.4,0,.2,1);transform:translateY(16px)}
+html,body{height:100%;font-family:'Readex Pro',sans-serif;background:var(--ink);overflow:hidden}
+.app{max-width:430px;margin:0 auto;height:100vh;background:var(--paper);position:relative;overflow:hidden;display:flex;flex-direction:column}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s cubic-bezier(.4,0,.2,1);transform:translateY(14px)}
 .screen.active{opacity:1;pointer-events:all;transform:translateY(0)}
-.screen.out{opacity:0;transform:translateY(-16px)}
+.screen.out{opacity:0;transform:translateY(-14px)}
+.scrollable{overflow-y:auto;-webkit-overflow-scrolling:touch}
+.scrollable::-webkit-scrollbar{display:none}
 
-/* SETUP */
-#s-setup{background:var(--green);justify-content:center;align-items:center;padding:32px 24px}
-.setup-shield{width:90px;height:90px;margin-bottom:20px}
-.setup-title{font-size:44px;font-weight:900;color:#fff;text-align:center;margin-bottom:6px}
-.setup-sub{font-size:14px;color:rgba(255,255,255,0.55);text-align:center;margin-bottom:28px;line-height:1.6}
-.setup-card{background:rgba(255,255,255,0.08);border-radius:var(--r);padding:24px;width:100%;border:1px solid rgba(255,255,255,0.1)}
-.setup-label{font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:8px;display:block}
-.setup-input{width:100%;padding:14px 16px;border-radius:var(--r-sm);background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.15);color:#fff;font-family:inherit;font-size:14px;outline:none;direction:ltr;text-align:left;transition:border-color .2s}
-.setup-input:focus{border-color:var(--green-glow)}
-.setup-hint{font-size:11px;color:rgba(255,255,255,0.35);margin-top:8px;line-height:1.6}
-.setup-btn{width:100%;margin-top:20px;padding:16px;border-radius:var(--r-pill);background:linear-gradient(135deg,var(--green-glow),var(--green-light));border:none;color:#fff;font-family:inherit;font-size:17px;font-weight:700;cursor:pointer}
+/* ── HEADER ─────────────────────────────────── */
+.app-header{background:linear-gradient(180deg,var(--ink-deep) 0%,var(--ink) 100%);padding:52px 20px 22px;flex-shrink:0;position:relative;overflow:hidden;text-align:center}
+.app-header::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(201,167,66,.04) 0,rgba(201,167,66,.04) 1px,transparent 1px,transparent 8px),repeating-linear-gradient(-45deg,rgba(201,167,66,.04) 0,rgba(201,167,66,.04) 1px,transparent 1px,transparent 8px)}
+.app-header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold-light),var(--gold),var(--gold-light),transparent)}
+.state-line{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px;position:relative;z-index:1}
+.state-rule{width:50px;height:1px;background:var(--gold)}
+.state-txt{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;letter-spacing:3px;color:var(--gold-light)}
+.seal-wrap{position:relative;z-index:1;margin-bottom:8px;display:inline-block}
+.dola-txt{font-family:'Noto Kufi Arabic',sans-serif;font-size:16px;font-weight:800;color:#fff;margin-bottom:8px;position:relative;z-index:1}
+.app-nm{font-family:'Noto Kufi Arabic',sans-serif;font-size:44px;font-weight:800;color:#fff;line-height:1;margin-bottom:3px;position:relative;z-index:1}
+.app-nm-en{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;letter-spacing:5px;color:var(--gold-light);margin-bottom:8px;position:relative;z-index:1}
+.app-tag{font-size:12px;color:rgba(255,255,255,.62);position:relative;z-index:1}
 
-/* HOME */
-#s-home{background:var(--off-white)}
-.home-header{background:linear-gradient(165deg,var(--green),#0a2e22);padding:48px 22px 28px;flex-shrink:0;position:relative;overflow:hidden}
-.home-header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-.header-logo{display:flex;align-items:center;gap:10px}
-.header-logo svg{width:34px;height:34px}
-.header-logo-name{font-size:24px;font-weight:900;color:#fff}
-.header-settings{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.7)}
-.header-title{font-size:20px;font-weight:700;color:#fff}
-.header-sub{font-size:13px;color:rgba(255,255,255,0.5);margin-top:5px}
-.home-body{flex:1;overflow-y:auto;padding:22px 18px 100px}
-.section-lbl{font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px}
-.cat-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
-.cat-card{background:var(--white);border-radius:var(--r);padding:20px 14px;box-shadow:var(--shadow);border:1.5px solid rgba(13,79,60,0.05);display:flex;flex-direction:column;align-items:center;gap:12px;cursor:pointer;transition:transform .15s}
-.cat-card:active{transform:scale(0.96)}
-.cat-icon{width:58px;height:58px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px}
-.cat-food .cat-icon{background:linear-gradient(135deg,#e8f5f0,#c8ead9)}
-.cat-pharma .cat-icon{background:linear-gradient(135deg,#e8f0f8,#c8d8ee)}
-.cat-name{font-size:16px;font-weight:700;color:var(--text)}
-.cat-desc{font-size:11px;color:var(--text-muted);text-align:center}
-.db-strip{background:var(--white);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shadow);display:flex;margin-bottom:22px;border:1.5px solid rgba(13,79,60,0.05)}
-.db-stat{flex:1;text-align:center;border-left:1px solid rgba(13,79,60,0.08)}
-.db-stat:last-child{border:none}
-.db-num{font-size:20px;font-weight:900;color:var(--green)}
-.db-lbl{font-size:10px;color:var(--text-muted);margin-top:2px}
-.bottom-nav{position:absolute;bottom:0;left:0;right:0;height:78px;background:rgba(255,255,255,0.98);backdrop-filter:blur(16px);border-top:1px solid rgba(13,79,60,0.08);display:flex;align-items:center;justify-content:space-around;padding-bottom:14px;z-index:10}
-.nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 16px;cursor:pointer;font-size:10px;color:var(--text-muted);font-weight:500}
-.nav-item.active{color:var(--green)}
-.nav-item svg{width:20px;height:20px}
-.nav-dot{width:4px;height:4px;border-radius:2px;background:var(--green);margin:2px auto 0}
+/* ── HOME ────────────────────────────────────── */
+.home-body{flex:1;padding:18px 16px 90px}
+.cta-btn{width:100%;background:linear-gradient(120deg,var(--ink),var(--ink-deep));border:none;border-radius:var(--radius);padding:15px 18px;display:flex;align-items:center;gap:14px;cursor:pointer;box-shadow:0 8px 22px rgba(17,41,77,.3);margin-bottom:20px;text-align:right}
+.cta-icon-tile{width:46px;height:46px;background:rgba(255,255,255,.13);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cta-title{font-family:'Noto Kufi Arabic',sans-serif;font-size:17px;font-weight:700;color:#fff;display:block;margin-bottom:2px}
+.cta-sub{font-size:11px;color:rgba(255,255,255,.62);display:block}
+.sec-lbl{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-size:11px;font-weight:600;color:var(--text-muted)}
+.sec-tick{width:14px;height:2px;background:var(--gold);flex-shrink:0}
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.cat-card{background:var(--card);border-radius:var(--radius);padding:20px 14px;text-align:center;cursor:pointer;border:1px solid var(--line);box-shadow:0 2px 10px rgba(0,0,0,.04);transition:transform .15s}
+.cat-card:active{transform:scale(.96)}
+.cat-icon-box{width:46px;height:46px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;color:var(--ink)}
+.cat-nm{font-family:'Noto Kufi Arabic',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:5px}
+.cat-desc{font-size:10.5px;color:var(--text-muted);line-height:1.5}
+.trust-card{background:var(--card);border-radius:var(--radius);padding:14px 16px;display:flex;align-items:center;gap:12px;border:1px solid var(--line);box-shadow:0 2px 10px rgba(0,0,0,.04);margin-bottom:12px}
+.trust-main{font-size:12.5px;font-weight:600;color:var(--text);line-height:1.4}
+.trust-sub{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--text-muted);margin-top:4px}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.stat-card{background:var(--card);border-radius:var(--radius);padding:12px 8px;text-align:center;border:1px solid var(--line);box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.stat-num{font-family:'Noto Kufi Arabic',sans-serif;font-size:18px;font-weight:800;color:var(--ink)}
+.stat-lbl{font-size:9.5px;color:var(--text-muted);margin-top:3px}
+.bottom-nav{position:absolute;bottom:0;left:0;right:0;height:76px;background:var(--ink-deep);box-shadow:0 -4px 20px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:space-around;padding-bottom:12px;z-index:10}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:rgba(255,255,255,.5);font-weight:400;cursor:pointer;padding:4px 12px}
+.nav-item svg{width:22px;height:22px}
+.nav-item.active{color:var(--gold-light);font-weight:700}
+.nav-dot{width:4px;height:4px;border-radius:2px;background:var(--gold);margin:0 auto}
 
-/* SCAN */
-#s-scan{background:#0a1a14}
-.scan-top{padding:52px 18px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0;z-index:2;position:relative}
-.back-btn{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.8);flex-shrink:0}
-.scan-title{font-size:17px;font-weight:700;color:#fff}
-.scan-badge{margin-right:auto;padding:5px 12px;border-radius:var(--r-pill);background:rgba(62,201,138,0.15);border:1px solid rgba(62,201,138,0.3);font-size:12px;font-weight:600;color:var(--green-glow)}
+/* ── SCAN ────────────────────────────────────── */
+#s-scan{background:#071628}
+.scan-hdr{background:linear-gradient(180deg,var(--ink-deep),var(--ink));padding:52px 18px 14px;flex-shrink:0;position:relative}
+.scan-hdr::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,var(--gold-light),transparent)}
+.scan-hdr-row{display:flex;align-items:center;gap:12px}
+.back-pill{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.12);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0}
+.scan-hdr-titles{flex:1;text-align:right}
+.scan-hdr-title{font-family:'Noto Kufi Arabic',sans-serif;font-size:15px;font-weight:700;color:#fff}
+.scan-hdr-en{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.45);margin-top:2px}
+.scan-cat-badge{padding:5px 12px;border-radius:20px;background:rgba(224,192,116,.15);border:1px solid rgba(224,192,116,.3);font-size:12px;font-weight:600;color:var(--gold-light);flex-shrink:0}
 .scan-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.scan-placeholder{width:220px;height:220px;position:relative;display:flex;align-items:center;justify-content:center}
-.scan-corner{position:absolute;width:28px;height:28px;border-color:var(--green-glow);border-style:solid}
+.scan-frame{width:220px;height:220px;position:relative;display:flex;align-items:center;justify-content:center}
+.sc{position:absolute;width:28px;height:28px;border-color:var(--gold-light);border-style:solid}
 .sc-tr{top:0;right:0;border-width:3px 3px 0 0;border-radius:0 8px 0 0}
 .sc-tl{top:0;left:0;border-width:3px 0 0 3px;border-radius:8px 0 0 0}
 .sc-br{bottom:0;right:0;border-width:0 3px 3px 0;border-radius:0 0 8px 0}
 .sc-bl{bottom:0;left:0;border-width:0 0 3px 3px;border-radius:0 0 0 8px}
-.scan-line{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--green-glow),transparent);animation:scan 2s linear infinite;box-shadow:0 0 8px var(--green-glow)}
-@keyframes scan{0%{top:0;opacity:0}5%{opacity:1}95%{opacity:1}100%{top:100%;opacity:0}}
-.scan-hint-text{color:rgba(255,255,255,0.45);font-size:13px;margin-top:16px;text-align:center;line-height:1.6}
-.preview-img{width:200px;height:200px;object-fit:cover;border-radius:12px;border:2px solid rgba(62,201,138,0.4);display:none}
-.scan-panel{background:rgba(10,22,16,0.96);padding:18px 20px 32px;flex-shrink:0;border-top:1px solid rgba(62,201,138,0.1)}
-.scan-tabs{display:flex;gap:8px;margin-bottom:16px}
-.scan-tab{flex:1;padding:9px;border-radius:10px;cursor:pointer;font-size:13px;font-weight:600;font-family:inherit;border:1.5px solid rgba(62,201,138,0.15);color:rgba(255,255,255,0.4);background:transparent;transition:all .2s}
-.scan-tab.active{background:rgba(62,201,138,0.12);border-color:var(--green-glow);color:var(--green-glow)}
+.sc-line{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold-light),transparent);animation:scl 2s linear infinite;box-shadow:0 0 8px var(--gold-light)}
+@keyframes scl{0%{top:0;opacity:0}5%{opacity:1}95%{opacity:1}100%{top:100%;opacity:0}}
+.preview-scan{width:200px;height:200px;object-fit:cover;border-radius:10px;border:1.5px solid rgba(224,192,116,.4);display:none}
+.scan-hint{color:rgba(255,255,255,.4);font-size:12px;margin-top:14px;text-align:center;line-height:1.6}
+.scan-panel{background:rgba(10,28,56,.97);padding:16px 18px 30px;flex-shrink:0;border-top:1px solid rgba(224,192,116,.12)}
+.scan-tabs{display:flex;gap:8px;margin-bottom:14px}
+.stab{flex:1;padding:9px;border-radius:10px;font-size:13px;font-weight:600;font-family:'Readex Pro',sans-serif;border:1.5px solid rgba(224,192,116,.15);color:rgba(255,255,255,.4);background:transparent;cursor:pointer;transition:all .2s}
+.stab.active{background:rgba(224,192,116,.1);border-color:var(--gold-light);color:var(--gold-light)}
 .scan-actions{display:flex;gap:10px;align-items:center}
-.capture-btn{flex:1;height:56px;border-radius:var(--r-pill);background:linear-gradient(135deg,var(--green-glow),var(--green-light));border:none;cursor:pointer;color:#fff;font-family:inherit;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 6px 20px rgba(62,201,138,0.35)}
-.gallery-btn{width:50px;height:50px;border-radius:14px;background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.1);cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center}
-#file-input,#gallery-input{display:none}
+.cap-lbl{flex:1;height:54px;border-radius:27px;background:linear-gradient(120deg,var(--ink),var(--ink-deep));color:#fff;font-family:'Noto Kufi Arabic',sans-serif;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;box-shadow:0 6px 20px rgba(17,41,77,.4);border:1.5px solid rgba(224,192,116,.2)}
+.gal-lbl{width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.6)}
+#fp,#fg,#fb{display:none}
+.bc-wrap{margin-top:14px;display:none}
+.bc-wrap.show{display:block}
+.bc-input{width:100%;padding:12px 14px;margin-bottom:10px;background:rgba(255,255,255,.06);border:1.5px solid rgba(224,192,116,.2);border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:16px;color:#fff;outline:none;direction:ltr;text-align:left;letter-spacing:1px}
+.bc-btn{width:100%;padding:13px;background:rgba(224,192,116,.12);border:1.5px solid var(--gold-light);border-radius:10px;font-family:'Readex Pro',sans-serif;font-size:15px;font-weight:600;color:var(--gold-light);cursor:pointer}
 
-/* ANALYZING */
-#s-analyzing{background:#0a1a14;justify-content:center;align-items:center;padding:32px 24px;gap:20px}
-.analyzing-img{width:160px;height:160px;object-fit:cover;border-radius:16px;border:2px solid rgba(62,201,138,0.3)}
-.analyzing-ring{width:64px;height:64px;border-radius:50%;border:3px solid rgba(62,201,138,0.15);border-top-color:var(--green-glow);animation:spin .9s linear infinite}
+/* ── SELECT ──────────────────────────────────── */
+#s-select{background:var(--paper)}
+.sel-hdr{background:linear-gradient(180deg,var(--ink-deep),var(--ink));padding:52px 18px 20px;flex-shrink:0;position:relative}
+.sel-hdr::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,var(--gold-light),transparent)}
+.sel-body{flex:1;padding:18px 16px 90px}
+.sel-photo{width:100%;max-height:150px;object-fit:cover;border-radius:var(--radius);margin-bottom:14px;border:1px solid var(--line)}
+.sel-q{font-family:'Noto Kufi Arabic',sans-serif;font-size:16px;font-weight:800;color:#fff;margin-bottom:3px}
+.sel-sub{font-size:12px;color:rgba(255,255,255,.55)}
+.prod-pick{background:var(--card);border-radius:var(--radius);border:1.5px solid var(--line);padding:13px 16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.04);transition:transform .15s,border-color .15s}
+.prod-pick:active{transform:scale(.97);border-color:var(--gold)}
+.pick-icon{width:44px;height:44px;border-radius:10px;background:rgba(17,41,77,.06);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.pick-nm{font-family:'Noto Kufi Arabic',sans-serif;font-size:14px;font-weight:700;color:var(--text)}
+.pick-meta{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-muted);margin-top:3px}
+.not-listed{width:100%;padding:13px;border-radius:var(--radius);background:transparent;border:1.5px solid var(--line);font-family:'Readex Pro',sans-serif;font-size:14px;font-weight:600;color:var(--text-muted);cursor:pointer;margin-top:4px;margin-bottom:80px}
+
+/* ── ANALYZING ───────────────────────────────── */
+#s-analyzing{background:#071628;justify-content:center;align-items:center;padding:32px 24px;gap:20px}
+.an-img{width:150px;height:150px;object-fit:cover;border-radius:14px;border:1.5px solid rgba(224,192,116,.3)}
+.an-ring{width:60px;height:60px;border-radius:50%;border:2.5px solid rgba(224,192,116,.15);border-top-color:var(--gold-light);animation:spin .9s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.analyzing-title{font-size:17px;font-weight:700;color:#fff;text-align:center}
-.analyzing-steps{display:flex;flex-direction:column;gap:8px;width:100%}
-.a-step{display:flex;align-items:center;gap:10px;justify-content:flex-end;font-size:13px;color:rgba(255,255,255,0.3);padding:8px 14px;border-radius:10px;background:rgba(255,255,255,0.03);width:100%;transition:all .3s}
-.a-step.done{color:var(--green-glow);background:rgba(62,201,138,0.08)}
-.a-step.active{color:#fff;background:rgba(255,255,255,0.07)}
-.a-dot{width:9px;height:9px;border-radius:50%;background:currentColor;flex-shrink:0}
+.an-title{font-family:'Noto Kufi Arabic',sans-serif;font-size:17px;font-weight:700;color:#fff;text-align:center}
+.an-steps{display:flex;flex-direction:column;gap:8px;width:100%}
+.an-step{display:flex;align-items:center;gap:10px;justify-content:flex-end;font-size:13px;color:rgba(255,255,255,.3);padding:8px 14px;border-radius:10px;background:rgba(255,255,255,.03);transition:all .3s}
+.an-step.done{color:var(--gold-light);background:rgba(224,192,116,.08)}
+.an-step.active{color:#fff;background:rgba(255,255,255,.07)}
+.an-dot{width:8px;height:8px;border-radius:50%;background:currentColor;flex-shrink:0}
 
-/* ── CONFIRM SCREEN (NEW — replaces manual entry) ── */
-#s-confirm{background:var(--off-white)}
-.confirm-header{background:linear-gradient(165deg,var(--green),#0a2e22);padding:48px 20px 24px;flex-shrink:0}
-.confirm-header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.confirm-top{display:flex;align-items:center;gap:12px;margin-bottom:4px}
-.confirm-title{font-size:17px;font-weight:700;color:#fff}
-.confirm-sub{font-size:13px;color:rgba(255,255,255,0.5);margin-top:4px}
-.confirm-body{flex:1;overflow-y:auto;padding:20px 18px}
-.confirm-photo{width:100%;max-height:200px;object-fit:cover;border-radius:var(--r);margin-bottom:16px;box-shadow:var(--shadow)}
-.confirm-question{font-size:15px;font-weight:700;color:var(--text);text-align:center;margin-bottom:16px}
-.detected-card{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);padding:0;overflow:hidden;margin-bottom:20px;border:2px solid rgba(45,154,116,0.2)}
-.detected-card-top{background:linear-gradient(135deg,rgba(45,154,116,0.08),rgba(45,154,116,0.03));padding:16px 18px;border-bottom:1px solid rgba(45,154,116,0.1);display:flex;align-items:center;gap:14px}
-.detected-icon{font-size:36px}
-.detected-name{font-size:18px;font-weight:800;color:var(--text)}
-.detected-meta{font-size:13px;color:var(--text-muted);margin-top:3px}
-.detected-details{padding:12px 18px}
-.d-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(13,79,60,0.05)}
-.d-row:last-child{border:none}
-.d-key{font-size:12px;color:var(--text-muted)}
-.d-val{font-size:13px;font-weight:700;color:var(--text)}
-.confirm-yes-btn{width:100%;padding:18px;border-radius:var(--r-pill);background:linear-gradient(135deg,var(--green-glow),var(--green-light));border:none;color:#fff;font-family:inherit;font-size:18px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(62,201,138,0.3);margin-bottom:12px;transition:transform .15s;display:flex;align-items:center;justify-content:center;gap:10px}
-.confirm-yes-btn:active{transform:scale(0.97)}
-.confirm-no-btn{width:100%;padding:14px;border-radius:var(--r-pill);background:transparent;border:1.5px solid rgba(13,79,60,0.15);color:var(--text-muted);font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:80px}
-.low-confidence-banner{background:rgba(201,168,76,0.1);border:1.5px solid rgba(201,168,76,0.3);border-radius:var(--r-sm);padding:10px 14px;margin-bottom:16px;font-size:12px;color:#8a6b1a;display:flex;align-items:center;gap:8px}
+/* ── SUCCESS ─────────────────────────────────── */
+#s-success{background:var(--paper)}
+.res-hdr{background:linear-gradient(180deg,var(--ink-deep),var(--ink));padding:52px 18px 20px;flex-shrink:0;position:relative}
+.res-hdr::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,var(--gold-light),transparent)}
+.res-hdr-row{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.res-hdr-titles{flex:1;text-align:right}
+.res-hdr-h{font-family:'Noto Kufi Arabic',sans-serif;font-size:15px;font-weight:700;color:#fff}
+.res-hdr-en{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.5);margin-top:2px}
+.res-date{font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(255,255,255,.55);flex-shrink:0}
+.appr-hero{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);border-radius:var(--radius);padding:16px;display:flex;align-items:center;gap:14px}
+.appr-tile{width:50px;height:50px;background:var(--gold-light);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--ink)}
+.appr-main{font-family:'Noto Kufi Arabic',sans-serif;font-size:18px;font-weight:800;color:#fff}
+.appr-sub{font-size:12px;color:rgba(255,255,255,.6);margin-top:3px}
+.res-body{flex:1;padding:18px 16px 100px}
+.res-body::-webkit-scrollbar{display:none}
 
-/* MANUAL ENTRY (fallback only) */
-#s-manual{background:var(--off-white)}
-.manual-header{background:linear-gradient(165deg,var(--green),#0a2e22);padding:48px 20px 24px;flex-shrink:0}
-.manual-title{font-size:17px;font-weight:700;color:#fff;margin-bottom:4px}
-.manual-sub{font-size:13px;color:rgba(255,255,255,0.5)}
-.manual-body{flex:1;overflow-y:auto;padding:20px 18px 100px}
-.m-card{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;margin-bottom:14px;border:1.5px solid rgba(13,79,60,0.05)}
-.m-card-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.m-card-title span{font-size:18px}
-.m-preview{width:100%;max-height:140px;object-fit:cover;border-radius:10px;margin-bottom:12px}
-.m-input{width:100%;padding:12px 14px;border-radius:var(--r-sm);border:1.5px solid rgba(13,79,60,0.15);background:var(--off-white);font-family:inherit;font-size:15px;color:var(--text);outline:none;margin-bottom:10px;transition:border-color .2s;text-align:right}
-.m-input:focus{border-color:var(--green-light);background:#fff}
-.m-label{font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:6px;display:block}
-.m-field{margin-bottom:14px}
-.size-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
-.size-opt{padding:10px;border-radius:var(--r-sm);text-align:center;font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid rgba(13,79,60,0.15);color:var(--text-muted);background:var(--off-white);transition:all .2s}
-.size-opt.selected{border-color:var(--green-light);color:var(--green);background:rgba(45,154,116,0.08)}
-.m-search-btn{width:100%;padding:16px;border-radius:var(--r-pill);background:linear-gradient(135deg,var(--green-glow),var(--green-light));border:none;color:#fff;font-family:inherit;font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(62,201,138,0.3);margin-bottom:100px}
+/* Product card */
+.pc{background:var(--card);border-radius:var(--radius);border:1px solid var(--line);box-shadow:0 2px 10px rgba(0,0,0,.04);overflow:hidden;margin-bottom:14px}
+.pc-top{padding:14px 16px;background:rgba(17,41,77,.03);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}
+.pc-ico{width:46px;height:46px;border-radius:10px;background:rgba(17,41,77,.06);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.pc-nm{font-family:'Noto Kufi Arabic',sans-serif;font-size:16px;font-weight:800;color:var(--text)}
+.pc-chip{display:inline-block;margin-top:5px;background:rgba(17,41,77,.07);border-radius:5px;padding:2px 8px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:var(--ink)}
+.pc-row{padding:11px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+.pc-row:last-child{border:none}
+.pc-key{font-size:12px;color:var(--text-muted)}
+.pc-val{font-size:13px;font-weight:600;color:var(--text);text-align:left}
+.pc-val.ok{color:var(--success);background:rgba(26,138,91,.1);padding:3px 10px;border-radius:6px;font-size:12px}
+.pc-val.mn{font-family:'IBM Plex Mono',monospace}
 
-/* QUALITY */
-#s-quality{background:var(--off-white)}
-.quality-header{background:linear-gradient(165deg,var(--green),#0a2e22);padding:48px 20px 24px;flex-shrink:0}
-.quality-top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
-.quality-title{font-size:17px;font-weight:700;color:#fff}
-.quality-result{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.08);border-radius:14px;padding:14px 16px;border:1px solid rgba(255,255,255,0.1)}
-.quality-icon{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-.quality-icon.bad{background:linear-gradient(135deg,#c0392b,#e74c3c)}
-.quality-body{flex:1;overflow-y:auto;padding:20px 18px}
-.q-card{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;margin-bottom:14px;border:1.5px solid rgba(13,79,60,0.05)}
-.q-card-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.detected-img{width:100%;max-height:160px;object-fit:cover;border-radius:10px;margin-bottom:12px}
-.tips-list{list-style:none}
-.tips-list li{font-size:13px;color:var(--text-mid);padding:6px 0;border-bottom:1px solid rgba(13,79,60,0.05);display:flex;align-items:flex-start;gap:8px;line-height:1.6}
-.tips-list li::before{content:'←';color:var(--green-light);flex-shrink:0}
-.tips-list li:last-child{border:none}
-.quality-actions{display:flex;gap:10px}
-.btn-confirm{flex:2;padding:16px;border-radius:var(--r-pill);background:linear-gradient(135deg,var(--green-glow),var(--green-light));border:none;color:#fff;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer}
-.btn-retake{flex:1;padding:16px;border-radius:var(--r-pill);background:rgba(13,79,60,0.07);border:1.5px solid rgba(13,79,60,0.15);color:var(--green);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer}
+/* Certificate card */
+.cc{background:var(--card);border-radius:var(--radius);border:1.5px solid var(--gold);box-shadow:0 6px 24px rgba(0,0,0,.08);overflow:visible;margin-bottom:14px;position:relative}
+.cc::before{content:'';position:absolute;inset:0;border-radius:var(--radius);background-image:repeating-linear-gradient(45deg,rgba(189,151,66,.04) 0,rgba(189,151,66,.04) 1px,transparent 1px,transparent 10px),repeating-linear-gradient(-45deg,rgba(189,151,66,.04) 0,rgba(189,151,66,.04) 1px,transparent 1px,transparent 10px);pointer-events:none;z-index:0}
+.cc-inner{position:absolute;inset:8px;border:0.5px solid rgba(189,151,66,.3);border-radius:7px;pointer-events:none;z-index:1}
+.cc-hdr{padding:14px 16px 12px;border-bottom:1px solid rgba(189,151,66,.2);display:flex;align-items:flex-start;gap:12px;position:relative;z-index:2}
+.cc-hdr-txt{flex:1}
+.cc-title{font-family:'Noto Kufi Arabic',sans-serif;font-size:14.5px;font-weight:800;color:var(--ink)}
+.cc-title-en{font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:700;letter-spacing:1.5px;color:var(--gold);margin-top:3px;display:block}
+.cc-auth{font-size:10.5px;color:var(--text-muted);margin-top:3px}
+.cc-body{padding:14px 16px;display:flex;gap:14px;position:relative;z-index:2;min-height:120px}
+.cc-left{flex:1}
+.cc-lbl{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;color:var(--gold);letter-spacing:.5px;margin-bottom:2px;display:block}
+.cc-lbl-ar{font-size:9.5px;color:var(--text-muted);margin-bottom:4px}
+.cc-num{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;color:var(--ink);letter-spacing:1px;margin-bottom:12px}
+.cc-date{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;color:var(--ink)}
+.cc-right{display:flex;flex-direction:column;align-items:center;gap:6px}
+.qr-box{padding:8px;background:var(--card);border:1px solid var(--line);border-radius:8px}
+.qr-cap{font-size:8px;text-align:center;color:var(--text-muted);line-height:1.5;margin-top:4px}
+.qr-cap span{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:7px;color:var(--gold);display:block}
+.stamp-wrap{position:absolute;left:14px;bottom:14px;opacity:.82;z-index:3}
+.cc-footer{background:var(--ink-deep);padding:10px 14px;display:flex;align-items:center;gap:10px;position:relative;z-index:2}
+.cc-footer-txt{font-size:9.5px;color:rgba(255,255,255,.55);line-height:1.5}
 
-/* SUCCESS */
-#s-success{background:var(--off-white)}
-.success-header{background:linear-gradient(165deg,var(--green),#0a2e22);padding:48px 20px 24px;flex-shrink:0;position:relative;overflow:hidden}
-.success-header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.result-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.success-badge{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.08);border-radius:14px;padding:14px 16px;border:1px solid rgba(62,201,138,0.2)}
-.success-icon{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#27ae60,#2ecc71);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;box-shadow:0 4px 16px rgba(39,174,96,0.4)}
-.success-badge h3{font-size:21px;font-weight:900;color:#2ecc71}
-.success-badge p{font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px}
-.result-body{flex:1;overflow-y:auto;padding:20px 18px 100px}
-.r-card{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;margin-bottom:14px;border:1.5px solid rgba(13,79,60,0.05)}
-.r-card-header{padding:16px 18px;background:rgba(13,79,60,0.03);border-bottom:1px solid rgba(13,79,60,0.06);display:flex;align-items:center;gap:14px}
-.r-product-icon{width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#e8f5f0,#c8ead9);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
-.r-product-name{font-size:17px;font-weight:800;color:var(--text)}
-.r-product-brand{display:inline-block;margin-top:5px;background:rgba(13,79,60,0.07);border-radius:6px;padding:2px 9px;font-size:12px;font-weight:600;color:var(--green-mid)}
-.r-row{padding:12px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(13,79,60,0.05)}
-.r-row:last-child{border:none}
-.r-key{font-size:12px;color:var(--text-muted)}
-.r-val{font-size:13px;font-weight:700;color:var(--text);text-align:left;max-width:58%}
-.r-val.success{color:var(--success);background:rgba(39,174,96,0.08);padding:3px 9px;border-radius:7px}
-.r-val.badge{color:var(--green);background:rgba(13,79,60,0.07);padding:3px 9px;border-radius:7px}
-.cert-card{background:linear-gradient(135deg,var(--green),var(--green-mid));border-radius:var(--r);padding:18px;margin-bottom:14px;box-shadow:0 6px 24px rgba(13,79,60,0.25)}
-.cert-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.cert-icon{width:42px;height:42px;background:rgba(255,255,255,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px}
-.cert-title{font-size:15px;font-weight:700;color:#fff}
-.cert-sub{font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px}
-.cert-num-block{background:rgba(0,0,0,0.2);border-radius:10px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center}
-.cert-num-label{font-size:10px;color:rgba(255,255,255,0.45)}
-.cert-num-value{font-family:monospace;font-size:16px;font-weight:900;color:var(--gold-light);letter-spacing:1.5px}
-.result-actions{display:flex;gap:10px;margin-bottom:14px}
-.r-action{flex:1;padding:13px;border-radius:var(--r-sm);border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:4px}
-.r-action-icon{font-size:18px}
-.r-action.share{background:linear-gradient(135deg,var(--green-light),var(--green));color:#fff}
-.r-action.again{background:rgba(13,79,60,0.07);color:var(--green);border:1.5px solid rgba(13,79,60,0.12)}
-.r-action.report{background:rgba(192,57,43,0.07);color:var(--danger);border:1.5px solid rgba(192,57,43,0.12)}
+/* Actions */
+.r-acts{display:flex;gap:10px;margin-bottom:14px}
+.ra{flex:1;padding:13px;border-radius:var(--radius);border:1px solid var(--line);background:var(--card);cursor:pointer;font-family:'Readex Pro',sans-serif;font-size:13px;font-weight:600;color:var(--text);text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.04);transition:transform .15s}
+.ra:active{transform:scale(.96)}
+.ra svg{display:block;margin:0 auto 4px}
+.ra.dng{color:var(--danger);border-color:rgba(122,43,34,.2);background:rgba(122,43,34,.06)}
 
-/* FAIL */
-#s-fail{background:var(--off-white)}
-.fail-header{background:linear-gradient(165deg,#3a0d0d,#220a0a);padding:48px 20px 24px;flex-shrink:0}
-.fail-badge{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.08);border-radius:14px;padding:14px 16px;border:1px solid rgba(231,76,60,0.2)}
-.fail-icon{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#c0392b,#e74c3c);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
-.fail-badge h3{font-size:20px;font-weight:900;color:#e74c3c}
-.fail-badge p{font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px}
-.fail-body{flex:1;overflow-y:auto;padding:20px 18px 100px}
-.warn-card{background:rgba(192,57,43,0.06);border:1.5px solid rgba(192,57,43,0.15);border-radius:var(--r);padding:18px;margin-bottom:14px}
-.warn-card h4{font-size:15px;font-weight:800;color:var(--danger);margin-bottom:8px}
-.warn-card p{font-size:13px;color:var(--text-mid);line-height:1.7}
-.contact-card{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;margin-bottom:14px;border:1.5px solid rgba(13,79,60,0.05)}
-.contact-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px}
-.contact-item{display:flex;align-items:center;gap:12px;padding:10px;background:rgba(13,79,60,0.04);border-radius:10px;margin-bottom:8px;cursor:pointer}
-.contact-item:last-child{margin:0}
-.contact-ico{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--green-light),var(--green));display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.contact-text{font-size:13px;font-weight:600;color:var(--text)}
-.contact-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
-.scan-again-btn{width:100%;padding:16px;border-radius:var(--r-pill);background:linear-gradient(135deg,var(--green-glow),var(--green-light));border:none;color:#fff;font-family:inherit;font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(62,201,138,0.3);margin-bottom:100px}
+/* ── FAIL ────────────────────────────────────── */
+#s-fail{background:var(--paper)}
+.fail-hdr{background:linear-gradient(180deg,#1c0a0a,#3a0d0d);padding:52px 18px 22px;flex-shrink:0;position:relative}
+.fail-hdr::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,#c0392b,transparent)}
+.fail-body{flex:1;padding:18px 16px 100px}
+.fail-body::-webkit-scrollbar{display:none}
+.warn-c{background:rgba(122,43,34,.06);border:1.5px solid rgba(122,43,34,.15);border-radius:var(--radius);padding:16px;margin-bottom:14px}
+.warn-title{font-family:'Noto Kufi Arabic',sans-serif;font-size:15px;font-weight:800;color:var(--danger);margin-bottom:8px}
+.warn-txt{font-size:13px;color:#3a2020;line-height:1.7}
+.again-btn{width:100%;padding:15px;border-radius:27px;background:linear-gradient(120deg,var(--ink),var(--ink-deep));border:none;color:#fff;font-family:'Noto Kufi Arabic',sans-serif;font-size:17px;font-weight:700;cursor:pointer;margin-bottom:80px;box-shadow:0 6px 20px rgba(17,41,77,.3)}
 
-.scrollable{-webkit-overflow-scrolling:touch}
-.scrollable::-webkit-scrollbar{display:none}
-.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(13,79,60,0.95);color:#fff;padding:10px 20px;border-radius:var(--r-pill);font-size:13px;font-weight:600;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(17,41,77,.95);color:#fff;padding:10px 20px;border-radius:30px;font-size:13px;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1}
 </style>
 </head>
 <body>
 <div class="app">
 
-<!-- SETUP -->
-<div class="screen active" id="s-setup">
-  <svg class="setup-shield" viewBox="0 0 90 90" fill="none">
-    <path d="M45 6L80 20L80 48C80 65 64 76 45 84C26 76 10 65 10 48L10 20Z" fill="url(#sg)" stroke="rgba(62,201,138,0.5)" stroke-width="1"/>
-    <path d="M29 49L41 61L61 39" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-    <defs><linearGradient id="sg" x1="10" y1="6" x2="80" y2="84" gradientUnits="userSpaceOnUse"><stop stop-color="#3ec98a"/><stop offset="1" stop-color="#0d4f3c"/></linearGradient></defs>
-  </svg>
-  <div class="setup-title">طمّني</div>
-  <div class="setup-sub">أدخل مفتاح Claude API لتفعيل<br>التعرف الذكي على المنتجات</div>
-  <div class="setup-card">
-    <label class="setup-label">Claude API Key</label>
-    <input class="setup-input" id="api-key-input" type="password" placeholder="sk-ant-..." dir="ltr">
-    <div class="setup-hint">Get your key from console.anthropic.com — saved locally on your device only.</div>
-    <button class="setup-btn" onclick="saveKey()">ابدأ الاستخدام ←</button>
-  </div>
-</div>
-
-<!-- HOME -->
-<div class="screen" id="s-home">
-  <div class="home-header">
-    <div class="header-top">
-      <div class="header-logo">
-        <svg viewBox="0 0 34 34" fill="none"><path d="M17 2L30 7.5V17C30 24 24 29 17 32C10 29 4 24 4 17V7.5Z" fill="url(#hl)"/><path d="M11 18L15.5 22.5L23 14" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><defs><linearGradient id="hl" x1="4" y1="2" x2="30" y2="32" gradientUnits="userSpaceOnUse"><stop stop-color="#3ec98a"/><stop offset="1" stop-color="#0d4f3c"/></linearGradient></defs></svg>
-        <span class="header-logo-name">طمّني</span>
-      </div>
-      <button class="header-settings" onclick="logout()">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-      </button>
-    </div>
-    <div class="header-title">مرحباً بك في طمّني 👋</div>
-    <div class="header-sub">صوّر المنتج — نتعرف عليه ونخبرك فوراً</div>
+<!-- ════ HOME ════════════════════════════════════════ -->
+<div class="screen active" id="s-home">
+  <div class="app-header">
+    <div class="state-line"><div class="state-rule"></div><span class="state-txt">STATE OF LIBYA</span><div class="state-rule"></div></div>
+    <div class="seal-wrap" id="seal-home"></div>
+    <div class="dola-txt">دولة ليبيا</div>
+    <div class="app-nm">طمّني</div>
+    <div class="app-nm-en">TAMMINI</div>
+    <div class="app-tag">تحقّق من اعتماد المنتج قبل أن تستهلكه</div>
   </div>
   <div class="home-body scrollable">
-    <div class="section-lbl">اختر الفئة</div>
-    <div class="cat-row">
-      <div class="cat-card cat-food" onclick="startScan('food')">
-        <div class="cat-icon">🍎</div>
-        <div class="cat-name">الأغذية</div>
-        <div class="cat-desc">ألبان · عصائر<br>معلبات · مياه</div>
+    <button class="cta-btn" onclick="goTo('s-scan');currentCat='food';updateScanUI()">
+      <div class="cta-icon-tile">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold-light)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5A1.5 1.5 0 014.5 7H7l1.4-2h7.2L17 7h2.5A1.5 1.5 0 0121 8.5v9A1.5 1.5 0 0119.5 19h-15A1.5 1.5 0 013 17.5z"/><circle cx="12" cy="12.5" r="3.3"/></svg>
       </div>
-      <div class="cat-card cat-pharma" onclick="startScan('pharma')">
-        <div class="cat-icon">💊</div>
-        <div class="cat-name">الأدوية</div>
-        <div class="cat-desc">أدوية · مكملات<br>مستلزمات طبية</div>
+      <div class="cta-text"><span class="cta-title">ابدأ التحقق من منتج</span><span class="cta-sub">صوّر المنتج — نطابقه مع السجل الرسمي</span></div>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2.2"><path d="M9 6l-6 6 6 6"/></svg>
+    </button>
+    <div class="sec-lbl"><div class="sec-tick"></div>اختر فئة المنتج</div>
+    <div class="cat-grid">
+      <div class="cat-card" onclick="startScan('food')">
+        <div class="cat-icon-box"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8c-2.5-2.2-7-1-7 4 0 4 3 8 5 8 1 0 1.3-.6 2-.6s1 .6 2 .6c2 0 5-4 5-8 0-4.5-4.2-5.9-7-4z"/><path d="M12 8c0-2 1-3.5 3-4"/></svg></div>
+        <div class="cat-nm">الأغذية</div>
+        <div class="cat-desc">ألبان · عصائر · معلّبات · مياه</div>
+      </div>
+      <div class="cat-card" onclick="startScan('pharma')">
+        <div class="cat-icon-box"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="4.5" width="15" height="15" rx="3.5"/><path d="M12 8.5v7M8.5 12h7"/></svg></div>
+        <div class="cat-nm">الأدوية</div>
+        <div class="cat-desc">أدوية · مكمّلات · مستلزمات طبية</div>
       </div>
     </div>
-    <div class="section-lbl">المنتجات التجريبية</div>
-    <div class="db-strip">
-      <div class="db-stat"><div class="db-num">٧</div><div class="db-lbl">منتج مسجّل</div></div>
-      <div class="db-stat"><div class="db-num">٢</div><div class="db-lbl">فئة</div></div>
-      <div class="db-stat"><div class="db-num">تجريبي</div><div class="db-lbl">الوضع</div></div>
+    <div class="trust-card">
+      <div id="seal-trust" style="flex-shrink:0"></div>
+      <div><div class="trust-main">البيانات معتمدة من مركز الرقابة على الأغذية والأدوية</div><div class="trust-sub">آخر تحديث للسجل · 2026/06/04</div></div>
     </div>
-    <div class="m-card"><div id="demo-list"></div></div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num">12,480</div><div class="stat-lbl">منتج معتمد</div></div>
+      <div class="stat-card"><div class="stat-num">342</div><div class="stat-lbl">بلاغ هذا الشهر</div></div>
+      <div class="stat-card"><div class="stat-num">2</div><div class="stat-lbl">فئة معتمدة</div></div>
+    </div>
   </div>
   <div class="bottom-nav">
-    <div class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>الرئيسية<div class="nav-dot"></div></div>
-    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>بحث</div>
-    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>السجل</div>
-    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>حسابي</div>
+    <div class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg>الرئيسية<div class="nav-dot"></div></div>
+    <div class="nav-item" onclick="startScan('food')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5A1.5 1.5 0 014.5 7H7l1.4-2h7.2L17 7h2.5A1.5 1.5 0 0121 8.5v9A1.5 1.5 0 0119.5 19h-15A1.5 1.5 0 013 17.5z"/><circle cx="12" cy="12.5" r="3.3"/></svg>تحقّق</div>
+    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 9A9 9 0 1112 21"/><path d="M3.5 5v4h4M12 8v4l3 2"/></svg>السجل</div>
+    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>حسابي</div>
   </div>
 </div>
 
-<!-- SCAN -->
+<!-- ════ SCAN ════════════════════════════════════════ -->
 <div class="screen" id="s-scan">
-  <div class="scan-top">
-    <button class="back-btn" onclick="goTo('s-home')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
-    <span class="scan-title">مسح المنتج</span>
-    <span class="scan-badge" id="scan-cat-badge">🍎 الأغذية</span>
+  <div class="scan-hdr">
+    <div class="scan-hdr-row">
+      <button class="back-pill" onclick="goTo('s-home')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 6l6 6-6 6"/></svg></button>
+      <div class="scan-hdr-titles"><div class="scan-hdr-title">مسح المنتج</div><div class="scan-hdr-en">PRODUCT SCAN</div></div>
+      <div class="scan-cat-badge" id="scan-badge">🍎 الأغذية</div>
+    </div>
   </div>
   <div class="scan-area">
-    <div class="scan-placeholder" id="scan-placeholder">
-      <div class="scan-corner sc-tr"></div><div class="scan-corner sc-tl"></div>
-      <div class="scan-corner sc-br"></div><div class="scan-corner sc-bl"></div>
-      <div class="scan-line"></div>
+    <div class="scan-frame" id="scan-frame">
+      <div class="sc sc-tr"></div><div class="sc sc-tl"></div>
+      <div class="sc sc-br"></div><div class="sc sc-bl"></div>
+      <div class="sc-line"></div>
     </div>
-    <img class="preview-img" id="preview-img" alt="">
-    <div class="scan-hint-text" id="scan-hint">وجّه الكاميرا نحو مقدمة المنتج<br>واضغط «تحقق الآن»</div>
+    <img class="preview-scan" id="preview-scan" alt="">
+    <div class="scan-hint" id="scan-hint">وجّه الكاميرا نحو المنتج<br>واضغط «تحقق الآن»</div>
   </div>
   <div class="scan-panel">
     <div class="scan-tabs">
-      <button class="scan-tab active" id="tab-camera">📷 الكاميرا</button>
-      <button class="scan-tab" id="tab-manual" onclick="goManual()">✏️ إدخال يدوي</button>
+      <button class="stab active" id="stab-photo" onclick="switchScanTab('photo')">📷 صورة المنتج</button>
+      <button class="stab" id="stab-barcode" onclick="switchScanTab('barcode')">🔲 الباركود</button>
     </div>
-    <div class="scan-actions">
-      <label for="gallery-input" class="gallery-btn" title="معرض الصور">🖼️</label>
-      <label for="file-input" class="capture-btn" id="capture-btn">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+    <div id="panel-photo" class="scan-actions">
+      <label for="fg" class="gal-lbl">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+      </label>
+      <label for="fp" class="cap-lbl">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5A1.5 1.5 0 014.5 7H7l1.4-2h7.2L17 7h2.5A1.5 1.5 0 0121 8.5v9A1.5 1.5 0 0119.5 19h-15A1.5 1.5 0 013 17.5z"/><circle cx="12" cy="12.5" r="3.3"/></svg>
         تحقق الآن
       </label>
-      <button class="gallery-btn">⚡</button>
+      <button class="gal-lbl">⚡</button>
     </div>
-  </div>
-  <input type="file" id="file-input" accept="image/*" capture="environment">
-  <input type="file" id="gallery-input" accept="image/*">
-</div>
-
-<!-- ANALYZING -->
-<div class="screen" id="s-analyzing">
-  <img class="analyzing-img" id="analyzing-img" alt="">
-  <div class="analyzing-ring"></div>
-  <div class="analyzing-title">جاري التعرف على المنتج...</div>
-  <div class="analyzing-steps">
-    <div class="a-step" id="step-quality"><div class="a-dot"></div>فحص جودة الصورة</div>
-    <div class="a-step" id="step-detect"><div class="a-dot"></div>التعرف على المنتج</div>
-    <div class="a-step" id="step-lookup"><div class="a-dot"></div>البحث في قاعدة البيانات</div>
-  </div>
-</div>
-
-<!-- CONFIRM (new clean screen) -->
-<div class="screen" id="s-confirm">
-  <div class="confirm-header" style="position:relative">
-    <div class="confirm-top">
-      <button class="back-btn" onclick="goTo('s-scan')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
-      <div>
-        <div class="confirm-title">هل هذا هو المنتج؟</div>
-        <div class="confirm-sub">تأكد ثم اضغط «نعم، ابحث عنه»</div>
+    <div id="panel-barcode" style="display:none">
+      <div class="scan-actions">
+        <label for="fb" class="cap-lbl" style="gap:10px">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="3" height="16"/><rect x="7" y="4" width="1" height="16"/><rect x="10" y="4" width="2" height="16"/><rect x="14" y="4" width="1" height="16"/><rect x="17" y="4" width="3" height="16"/></svg>
+          صوّر الباركود
+        </label>
+      </div>
+      <div class="bc-wrap show" style="margin-top:14px">
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:8px;text-align:center">أو أدخل الرقم يدوياً</div>
+        <input class="bc-input" id="bc-input" type="text" inputmode="numeric" placeholder="مثال: 6240000669027" dir="ltr">
+        <button class="bc-btn" onclick="lookupBarcode()">بحث بالباركود</button>
       </div>
     </div>
   </div>
-  <div class="confirm-body scrollable">
-    <img class="confirm-photo" id="confirm-photo" alt="">
-    <div class="low-confidence-banner" id="low-conf-banner" style="display:none">
-      ⚠️ الصورة غير واضحة تماماً — تحقق من الاسم قبل المتابعة
+  <input type="file" id="fp" accept="image/*" capture="environment">
+  <input type="file" id="fg" accept="image/*">
+  <input type="file" id="fb" accept="image/*" capture="environment">
+</div>
+
+<!-- ════ SELECT ══════════════════════════════════════ -->
+<div class="screen" id="s-select">
+  <div class="sel-hdr">
+    <div class="scan-hdr-row" style="margin-bottom:14px">
+      <button class="back-pill" onclick="goTo('s-scan')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 6l6 6-6 6"/></svg></button>
+      <div class="scan-hdr-titles"><div class="sel-q">هل هذا المنتج؟</div><div class="sel-sub">اختر المنتج الصحيح للتحقق</div></div>
     </div>
-    <div class="detected-card">
-      <div class="detected-card-top">
-        <div class="detected-icon" id="conf-icon">💧</div>
-        <div>
-          <div class="detected-name" id="conf-name">-</div>
-          <div class="detected-meta" id="conf-brand">-</div>
+    <img id="sel-photo" class="sel-photo" alt="">
+  </div>
+  <div class="sel-body scrollable" id="sel-body"></div>
+</div>
+
+<!-- ════ ANALYZING ═══════════════════════════════════ -->
+<div class="screen" id="s-analyzing">
+  <img class="an-img" id="an-img" alt="">
+  <div class="an-ring"></div>
+  <div class="an-title">جاري التحقق من المنتج...</div>
+  <div class="an-steps">
+    <div class="an-step" id="as1"><div class="an-dot"></div>فحص الصورة</div>
+    <div class="an-step" id="as2"><div class="an-dot"></div>مطابقة قاعدة البيانات</div>
+    <div class="an-step" id="as3"><div class="an-dot"></div>التحقق من الاعتماد</div>
+  </div>
+</div>
+
+<!-- ════ SUCCESS ═════════════════════════════════════ -->
+<div class="screen" id="s-success">
+  <div class="res-hdr">
+    <div class="res-hdr-row">
+      <button class="back-pill" onclick="goTo('s-home')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 6l6 6-6 6"/></svg></button>
+      <div class="res-hdr-titles"><div class="res-hdr-h">نتيجة التحقق</div><div class="res-hdr-en">VERIFICATION RESULT</div></div>
+      <div class="res-date" id="res-date">04 JUN 2026</div>
+    </div>
+    <div class="appr-hero">
+      <div class="appr-tile"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 2.5V11c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V5.5z"/><path d="M9 12l2 2 4-4.5"/></svg></div>
+      <div><div class="appr-main">معتمد ومسجّل رسمياً</div><div class="appr-sub">مطابق لقاعدة بيانات الاعتماد</div></div>
+    </div>
+  </div>
+  <div class="res-body scrollable">
+    <div class="pc">
+      <div class="pc-top">
+        <div class="pc-ico" id="r-ico">💧</div>
+        <div><div class="pc-nm" id="r-nm">-</div><span class="pc-chip" id="r-chip">-</span></div>
+      </div>
+      <div class="pc-row"><span class="pc-key">الشركة المستوردة</span><span class="pc-val" id="r-co">-</span></div>
+      <div class="pc-row"><span class="pc-key">بلد المنشأ</span><span class="pc-val" id="r-orig">-</span></div>
+      <div class="pc-row"><span class="pc-key">الفئة</span><span class="pc-val" id="r-cat">-</span></div>
+      <div class="pc-row"><span class="pc-key">الحجم</span><span class="pc-val mn" id="r-sz">-</span></div>
+      <div class="pc-row"><span class="pc-key">الحالة</span><span class="pc-val ok">ساري ومعتمد ✓</span></div>
+    </div>
+    <div class="cc" id="cert-card">
+      <div class="cc-inner"></div>
+      <div class="cc-hdr">
+        <div id="seal-cert"></div>
+        <div class="cc-hdr-txt">
+          <div class="cc-title">شهادة اعتماد رسمية</div>
+          <span class="cc-title-en">OFFICIAL APPROVAL CERTIFICATE</span>
+          <div class="cc-auth">معتمدة من مركز الرقابة على الأغذية والأدوية</div>
         </div>
       </div>
-      <div class="detected-details">
-        <div class="d-row"><span class="d-key">الشركة</span><span class="d-val" id="conf-company">-</span></div>
-        <div class="d-row"><span class="d-key">الحجم</span><span class="d-val" id="conf-size">-</span></div>
-        <div class="d-row"><span class="d-key">الفئة</span><span class="d-val" id="conf-cat">-</span></div>
+      <div class="cc-body">
+        <div class="cc-left">
+          <span class="cc-lbl">APPROVAL No. · رقم الاعتماد الرسمي</span>
+          <div class="cc-num" id="r-certnum">FDCC-2026-00001</div>
+          <span class="cc-lbl">VALID UNTIL · صالحة حتى</span>
+          <div class="cc-date" id="r-valid">2027 / 06 / 03</div>
+        </div>
+        <div class="cc-right">
+          <div class="qr-box" id="qr-block"></div>
+          <div class="qr-cap">امسح للتحقق<span>SCAN TO VERIFY</span></div>
+        </div>
+        <div class="stamp-wrap" id="stamp-wrap"></div>
+      </div>
+      <div class="cc-footer">
+        <div id="seal-footer"></div>
+        <div class="cc-footer-txt">وثيقة إلكترونية معتمدة من مركز الرقابة على الأغذية والأدوية — دولة ليبيا</div>
       </div>
     </div>
-    <button class="confirm-yes-btn" onclick="confirmAndSearch()">
-      <span>✓</span> نعم، ابحث عنه
-    </button>
-    <button class="confirm-no-btn" onclick="goManual()">تعديل البيانات يدوياً</button>
-  </div>
-</div>
-
-<!-- QUALITY (bad photo) -->
-<div class="screen" id="s-quality">
-  <div class="quality-header">
-    <div class="quality-top">
-      <button class="back-btn" onclick="goTo('s-scan')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
-      <span class="quality-title">الصورة غير واضحة</span>
-    </div>
-    <div class="quality-result">
-      <div class="quality-icon bad">⚠️</div>
-      <div class="quality-text" style="color:#fff">
-        <div style="font-size:16px;font-weight:800" id="quality-title">يتعذر التعرف على المنتج</div>
-        <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px">حاول إعادة التصوير أو أدخل البيانات يدوياً</div>
-      </div>
-    </div>
-  </div>
-  <div class="quality-body scrollable">
-    <div class="q-card">
-      <div class="q-card-title"><span>📷</span> الصورة الملتقطة</div>
-      <img class="detected-img" id="quality-img" alt="">
-      <div id="quality-issue" style="font-size:13px;color:var(--danger);font-weight:600;padding:6px 0"></div>
-    </div>
-    <div class="q-card">
-      <div class="q-card-title"><span>💡</span> نصائح</div>
-      <ul class="tips-list" id="quality-tips">
-        <li>تأكد من ظهور اسم المنتج بوضوح في الصورة</li>
-        <li>صوّر في إضاءة جيدة</li>
-        <li>اجعل المنتج في مركز الإطار</li>
-      </ul>
-    </div>
-    <div class="quality-actions">
-      <button class="btn-retake" onclick="goTo('s-scan')">📷 إعادة التصوير</button>
-      <button class="btn-confirm" onclick="goManual()">إدخال يدوي ←</button>
+    <div class="r-acts">
+      <div class="ra"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M10 13h5M10 16.5h5"/></svg>مشاركة</div>
+      <div class="ra" onclick="startScan('food')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5A1.5 1.5 0 014.5 7H7l1.4-2h7.2L17 7h2.5A1.5 1.5 0 0121 8.5v9A1.5 1.5 0 0119.5 19h-15A1.5 1.5 0 013 17.5z"/><circle cx="12" cy="12.5" r="3.3"/></svg>تحقّق آخر</div>
+      <div class="ra dng"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg>إبلاغ</div>
     </div>
   </div>
 </div>
 
-<!-- MANUAL (fallback) -->
-<div class="screen" id="s-manual">
-  <div class="manual-header">
-    <div class="quality-top" style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
-      <button class="back-btn" onclick="goTo('s-scan')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
-      <div><div class="manual-title">إدخال يدوي</div><div class="manual-sub">أدخل بيانات المنتج</div></div>
-    </div>
-  </div>
-  <div class="manual-body scrollable">
-    <div class="m-card">
-      <div class="m-card-title"><span>🏷️</span> بيانات المنتج</div>
-      <img class="m-preview" id="manual-img" alt="" style="display:none">
-      <div class="m-field">
-        <label class="m-label">اسم المنتج / العلامة التجارية *</label>
-        <input class="m-input" id="m-brand" type="text" placeholder="مثال: دجلة، مراعي، بنادول..." dir="rtl">
-      </div>
-      <div class="m-field">
-        <label class="m-label">الشركة (اختياري)</label>
-        <input class="m-input" id="m-company" type="text" placeholder="مثال: شركة السلوى" dir="rtl">
-      </div>
-    </div>
-    <div class="m-card">
-      <div class="m-card-title"><span>📦</span> الحجم</div>
-      <div class="size-grid">
-        <div class="size-opt" onclick="selectSize(this,'250ml')">250 ml</div>
-        <div class="size-opt" onclick="selectSize(this,'500ml')">500 ml</div>
-        <div class="size-opt" onclick="selectSize(this,'1L')">1 L</div>
-        <div class="size-opt" onclick="selectSize(this,'1.5L')">1.5 L</div>
-        <div class="size-opt" onclick="selectSize(this,'2L')">2 L</div>
-        <div class="size-opt" onclick="selectSize(this,'other')">أخرى</div>
-      </div>
-      <input class="m-input" id="m-size" type="text" placeholder="أو اكتب الحجم" dir="ltr" style="text-align:left">
-    </div>
-    <button class="m-search-btn" onclick="doLookup()">🔍 ابحث في قاعدة البيانات</button>
-  </div>
-</div>
-
-<!-- SUCCESS -->
-<div class="screen" id="s-success">
-  <div class="success-header">
-    <div class="result-top">
-      <button class="back-btn" onclick="goTo('s-home')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
-      <span style="font-size:16px;font-weight:700;color:#fff">نتيجة التحقق</span>
-    </div>
-    <div class="success-badge">
-      <div class="success-icon">✅</div>
-      <div><h3>معتمد ومسجّل</h3><p>موجود في قاعدة البيانات الرسمية</p></div>
-    </div>
-  </div>
-  <div class="result-body scrollable">
-    <div class="r-card">
-      <div class="r-card-header">
-        <div class="r-product-icon" id="r-icon">💧</div>
-        <div><div class="r-product-name" id="r-name">-</div><span class="r-product-brand" id="r-brand">-</span></div>
-      </div>
-      <div class="r-row"><span class="r-key">🏢 الشركة المستوردة</span><span class="r-val" id="r-company">-</span></div>
-      <div class="r-row"><span class="r-key">🌍 بلد المنشأ</span><span class="r-val" id="r-origin">-</span></div>
-      <div class="r-row"><span class="r-key">🏛️ الجهة المعتمِدة</span><span class="r-val" id="r-authority">مركز الرقابة على الأغذية والأدوية</span></div>
-      <div class="r-row"><span class="r-key">📦 الفئة</span><span class="r-val badge" id="r-category">-</span></div>
-      <div class="r-row"><span class="r-key">📏 الحجم</span><span class="r-val" id="r-size">-</span></div>
-      <div class="r-row"><span class="r-key">✔️ الحالة</span><span class="r-val success">ساري ومعتمد ✓</span></div>
-    </div>
-    <div class="cert-card">
-      <div class="cert-top"><div class="cert-icon">🏅</div><div><div class="cert-title">شهادة الاعتماد الرسمية</div><div class="cert-sub">صادرة من مركز الرقابة على الأغذية والأدوية</div></div></div>
-      <div class="cert-num-block"><div><div class="cert-num-label">رقم الاعتماد الرسمي</div><div class="cert-num-value" id="r-cert-num">FDCC-2026-00001</div></div><div style="font-size:24px;color:rgba(255,255,255,0.25)">🔏</div></div>
-    </div>
-    <div class="result-actions">
-      <button class="r-action share"><span class="r-action-icon">📤</span>مشاركة</button>
-      <button class="r-action again" onclick="goTo('s-scan')"><span class="r-action-icon">📷</span>تحقق آخر</button>
-      <button class="r-action report"><span class="r-action-icon">🚩</span>إبلاغ</button>
-    </div>
-  </div>
-</div>
-
-<!-- FAIL -->
+<!-- ════ FAIL ═════════════════════════════════════════ -->
 <div class="screen" id="s-fail">
-  <div class="fail-header">
-    <div class="result-top" style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
-      <button class="back-btn" onclick="goTo('s-home')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
-      <span style="font-size:16px;font-weight:700;color:rgba(255,255,255,0.8)">نتيجة التحقق</span>
+  <div class="fail-hdr">
+    <div class="scan-hdr-row" style="margin-bottom:14px">
+      <button class="back-pill" onclick="goTo('s-home')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 6l6 6-6 6"/></svg></button>
+      <div class="scan-hdr-titles"><div class="res-hdr-h">نتيجة التحقق</div><div class="res-hdr-en">VERIFICATION RESULT</div></div>
     </div>
-    <div class="fail-badge">
-      <div class="fail-icon">❌</div>
-      <div><h3>غير موجود</h3><p>لم يُعثر على هذا المنتج في قاعدة البيانات المعتمدة</p></div>
+    <div class="appr-hero" style="background:rgba(255,255,255,0.08);border-color:rgba(192,57,43,0.3)">
+      <div class="appr-tile" style="background:#c0392b"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></div>
+      <div><div class="appr-main">غير موجود في قاعدة البيانات</div><div class="appr-sub">لم يُعثر على هذا المنتج</div></div>
     </div>
   </div>
   <div class="fail-body scrollable">
-    <div class="warn-card"><h4>⚠️ تنبيه مهم</h4><p>لم يتم العثور على هذا المنتج ضمن قاعدة البيانات المعتمدة حالياً. يُنصح بعدم الاستخدام والتواصل مع الجهة الرقابية المختصة.</p></div>
-    <div class="contact-card">
-      <div class="contact-title">📞 تواصل مع الجهات الرقابية</div>
-      <div class="contact-item"><div class="contact-ico">🏛️</div><div><div class="contact-text">مركز الرقابة على الأغذية والأدوية</div><div class="contact-sub">للإبلاغ عن منتجات مشبوهة</div></div></div>
-      <div class="contact-item"><div class="contact-ico">📋</div><div><div class="contact-text">المركز الوطني للمواصفات</div><div class="contact-sub">للمعايير القياسية الليبية</div></div></div>
+    <div class="warn-c"><div class="warn-title">⚠️ تنبيه مهم</div><div class="warn-txt">لم يتم العثور على هذا المنتج ضمن قاعدة البيانات المعتمدة. يُنصح بعدم استخدامه والتواصل مع مركز الرقابة على الأغذية والأدوية للتحقق.</div></div>
+    <div class="pc" style="padding:16px;border:none">
+      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px">📞 تواصل مع الجهات الرقابية</div>
+      <div style="background:rgba(17,41,77,.04);border-radius:10px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:12px"><div style="width:36px;height:36px;border-radius:9px;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px">🏛️</div><div><div style="font-size:13px;font-weight:600;color:var(--text)">مركز الرقابة على الأغذية والأدوية</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px">للإبلاغ عن منتجات مشبوهة</div></div></div>
     </div>
-    <button class="scan-again-btn" onclick="goTo('s-scan')">📷 تحقق من منتج آخر</button>
+    <button class="again-btn" onclick="startScan('food')">📷 تحقق من منتج آخر</button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ── Database ────────────────────────────────────────────
-const DB = [
-  { id:"FDCC-2026-00001", name:"لبن المراعي بالفراولة",    brand:"Almarai",   company:"شركة المراعي",                    origin:"المملكة العربية السعودية", category:"🥛 ألبان ومشروبات",    size:"250ml", icon:"🥛", keywords:["مراعي","almarai","فراولة","strawberry","لبن","حليب"] },
-  { id:"FDCC-2026-00002", name:"عصير تروبيكانا برتقال",    brand:"Tropicana", company:"شركة PepsiCo MENA",               origin:"الإمارات العربية المتحدة", category:"🍊 عصائر ومشروبات",   size:"1L",    icon:"🍊", keywords:["تروبيكانا","tropicana","برتقال","orange","عصير"] },
-  { id:"FDCC-2026-00003", name:"مياه بيور المعدنية",       brand:"Pure",      company:"شركة بيور",                       origin:"ليبيا",                    category:"💧 مياه معبأة",        size:"500ml", icon:"💧", keywords:["بيور","pure","مياه","ماء","water","معدنية"] },
-  { id:"FDCC-2026-00004", name:"شوكولاتة كيت كات",         brand:"KitKat",    company:"شركة نستله MENA",                 origin:"المملكة العربية السعودية", category:"🍫 شوكولاتة وحلويات",  size:"41.5g", icon:"🍫", keywords:["كيت كات","kitkat","kit kat","شوكولاتة","نستله","nestle"] },
-  { id:"FDPCC-2026-00001", name:"بنادول أكتيف فاست",       brand:"Panadol",   company:"شركة GSK Arabia",                 origin:"المملكة العربية السعودية", category:"💊 أدوية مسكنة",       size:"500mg", icon:"💊", keywords:["بنادول","panadol","باراسيتامول","paracetamol","مسكن"] },
-  { id:"FDPCC-2026-00002", name:"فيتامين سي 1000 mg",     brand:"Redoxon",   company:"شركة Bayer Arabia",               origin:"الإمارات العربية المتحدة", category:"💊 مكملات غذائية",     size:"1000mg",icon:"🟡", keywords:["فيتامين سي","vitamin c","ريدوكسون","redoxon","bayer"] },
-  { id:"FDCC-2026-00008", name:"مياه دجلة المعدنية",       brand:"Dajla",     company:"شركة السلوى للصناعات الغذائية",   origin:"ليبيا",                    category:"💧 مياه معبأة",        size:"500ml", icon:"💧", keywords:["دجلة","dajla","مياه","ماء","water","سلوى","assalwa"] },
+// ── SVG Components ─────────────────────────────────
+function sealSVG(size,ink,gold){
+  let b='',N=44;
+  for(let i=0;i<N;i++){const a=i/N*Math.PI*2;b+=`<circle cx="${(100+Math.cos(a)*88).toFixed(1)}" cy="${(100+Math.sin(a)*88).toFixed(1)}" r="1.7" fill="${gold}"/>`;}
+  function star(cx,cy,r){let p='';for(let i=0;i<10;i++){const rd=i%2?r*.42:r,a=i/10*Math.PI*2-Math.PI/2;p+=`${(cx+Math.cos(a)*rd).toFixed(1)},${(cy+Math.sin(a)*rd).toFixed(1)} `;}return`<polygon points="${p.trim()}" fill="${gold}"/>`;}
+  return`<svg width="${size}" height="${size}" viewBox="0 0 200 200"><circle cx="100" cy="100" r="96" fill="none" stroke="${gold}" stroke-width="2.5"/><circle cx="100" cy="100" r="78" fill="none" stroke="${gold}" stroke-width="1" opacity="0.7"/>${b}${star(100,22,7)}${star(34,150,5)}${star(166,150,5)}<path d="M100 44 L150 64 V104 C150 138 128 158 100 170 C72 158 50 138 50 104 V64 Z" fill="none" stroke="${ink}" stroke-width="5" stroke-linejoin="round"/><path d="M78 104 L94 121 L124 84" fill="none" stroke="${ink}" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+}
+
+function stampSVG(size,color,rotate){
+  return`<div style="width:${size}px;height:${size}px;transform:rotate(${rotate}deg);opacity:.82"><svg width="${size}" height="${size}" viewBox="0 0 120 120"><circle cx="60" cy="60" r="56" fill="none" stroke="${color}" stroke-width="3"/><circle cx="60" cy="60" r="48" fill="none" stroke="${color}" stroke-width="1.5"/><text x="60" y="52" text-anchor="middle" fill="${color}" style="font-family:'Noto Kufi Arabic',sans-serif;font-weight:800;font-size:26px">معتمد</text><path d="M40 62 L53 75 L82 46" fill="none" stroke="${color}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><text x="60" y="100" text-anchor="middle" fill="${color}" style="font-family:'Readex Pro',sans-serif;font-weight:600;font-size:11px;letter-spacing:1px">صالح للتداول</text></svg></div>`;
+}
+
+function qrSVG(size,color,seed){
+  const n=11;let cells='',s=seed||8;
+  const rnd=()=>{s=(s*9301+49297)%233280;return s/233280;};
+  const finder=(r,c)=>(r<3&&c<3)||(r<3&&c>n-4)||(r>n-4&&c<3);
+  for(let r=0;r<n;r++)for(let c=0;c<n;c++){if(finder(r,c))continue;if(rnd()>.52)cells+=`<rect x="${c}" y="${r}" width="1" height="1" fill="${color}"/>`;}
+  const corner=(x,y)=>`<rect x="${x}" y="${y}" width="3" height="3" fill="none" stroke="${color}" stroke-width=".7"/><rect x="${x+1}" y="${y+1}" width="1" height="1" fill="${color}"/>`;
+  return`<svg width="${size}" height="${size}" viewBox="-0.5 -0.5 ${n+1} ${n+1}">${cells}${corner(0,0)}${corner(n-3,0)}${corner(0,n-3)}</svg>`;
+}
+
+// Inject seals
+document.getElementById('seal-home').innerHTML = sealSVG(64,'#f4f1e9','#e0c074');
+document.getElementById('seal-trust').innerHTML = sealSVG(42,'#11294d','#bd9742');
+document.getElementById('seal-cert').innerHTML  = sealSVG(44,'#11294d','#bd9742');
+document.getElementById('seal-footer').innerHTML = sealSVG(28,'#f4f1e9','#e0c074');
+document.getElementById('qr-block').innerHTML   = qrSVG(70,'#11294d',42);
+document.getElementById('stamp-wrap').innerHTML = stampSVG(90,'#11294d',-13);
+
+// ── Database ──────────────────────────────────────
+const DB=[
+  {id:'FDCC-2026-00010',name:'مياه إفري الغازية',brand:'Ifri',company:'Groupe Ifri',origin:'الجزائر',cat:'food',catLabel:'مياه معبّأة',size:'330 ml',icon:'💧',barcode:'6130093010335',certNum:'FDCC-2026-00010',valid:'2027 / 06 / 03',kw:['ifri','إفري','افري','petillante','غازي','ايفري']},
+  {id:'FDCC-2026-00008',name:'مياه دجلة المعدنية',brand:'Dajla',company:'شركة السلوى للصناعات الغذائية',origin:'ليبيا',cat:'food',catLabel:'مياه معبّأة',size:'500 ml',icon:'💧',barcode:'6240000669027',certNum:'FDCC-2026-00008',valid:'2027 / 06 / 03',kw:['dajla','دجلة','دجله','سلوى','assalwa']},
+  {id:'FDCC-2026-00011',name:'لبن النسيم أصلي',brand:'Al Naseem',company:'شركة النسيم للصناعات الغذائية',origin:'ليبيا — مصراتة',cat:'food',catLabel:'ألبان مخمّرة',size:'500 g',icon:'🥛',barcode:'6241000041530',certNum:'FDCC-2026-00011',valid:'2027 / 06 / 03',kw:['naseem','النسيم','نسيم','laban','لبن','asli','أصلي']},
+  {id:'FDCC-2026-00012',name:'لبن النسيم أصلي',brand:'Al Naseem',company:'شركة النسيم للصناعات الغذائية',origin:'ليبيا — مصراتة',cat:'food',catLabel:'ألبان مخمّرة',size:'1 kg',icon:'🥛',barcode:'6241000041523',certNum:'FDCC-2026-00012',valid:'2027 / 06 / 03',kw:['naseem','النسيم','نسيم','laban','لبن','asli','أصلي','كيلو','1kg']},
 ];
 
-// Populate home list
-document.getElementById('demo-list').innerHTML = DB.map(p=>`
-  <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(13,79,60,0.06)">
-    <span style="font-size:22px">${p.icon}</span>
-    <div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--text)">${p.name}</div><div style="font-size:11px;color:var(--text-muted)">${p.brand} · ${p.size}</div></div>
-    <span style="font-size:11px;font-weight:600;color:var(--green-light);background:rgba(45,154,116,0.1);padding:2px 8px;border-radius:20px">✓ معتمد</span>
-  </div>`).join('')+`<div style="font-size:11px;color:var(--text-muted);padding:8px 0 0;text-align:center">أي منتج آخر → غير موجود</div>`;
+// ── State ─────────────────────────────────────────
+let cur='s-home', currentCat='food', capturedB64=null;
 
-// ── State ───────────────────────────────────────────────
-let currentScreen = 's-setup';
-let currentCategory = 'food';
-let capturedImageB64 = null;
-let detectedProduct = null;
-let apiKey = localStorage.getItem('tammini_key') || '';
-if (apiKey) goTo('s-home');
-
-function saveKey() {
-  const k = document.getElementById('api-key-input').value.trim();
-  if (!k.startsWith('sk-ant-')) { showToast('مفتاح غير صالح — يجب أن يبدأ بـ sk-ant-'); return; }
-  localStorage.setItem('tammini_key', k);
-  apiKey = k;
-  goTo('s-home');
-}
-function logout() {
-  if (confirm('Change API key?')) {
-    localStorage.removeItem('tammini_key');
-    apiKey = '';
-    document.getElementById('api-key-input').value = '';
-    goTo('s-setup');
-  }
+function goTo(id){
+  const c=document.getElementById(cur),n=document.getElementById(id);
+  c.classList.add('out');
+  setTimeout(()=>{c.classList.remove('active','out');n.classList.add('active');cur=id;},280);
 }
 
-function goTo(id) {
-  const cur = document.getElementById(currentScreen);
-  const next = document.getElementById(id);
-  cur.classList.add('out');
-  setTimeout(() => { cur.classList.remove('active','out'); next.classList.add('active'); currentScreen = id; }, 280);
-}
-
-function startScan(cat) {
-  currentCategory = cat;
-  document.getElementById('scan-cat-badge').textContent = cat==='food' ? '🍎 الأغذية' : '💊 الأدوية';
-  capturedImageB64 = null;
-  document.getElementById('preview-img').style.display = 'none';
-  document.getElementById('scan-placeholder').style.display = 'flex';
-  document.getElementById('scan-hint').textContent = 'وجّه الكاميرا نحو مقدمة المنتج\nواضغط «تحقق الآن»';
+function startScan(cat){
+  currentCat=cat;
+  updateScanUI();
+  capturedB64=null;
+  document.getElementById('preview-scan').style.display='none';
+  document.getElementById('scan-frame').style.display='flex';
+  document.getElementById('scan-hint').textContent='وجّه الكاميرا نحو المنتج\nواضغط «تحقق الآن»';
   goTo('s-scan');
 }
 
-function goManual() {
-  document.getElementById('m-brand').value = detectedProduct ? (detectedProduct.name || detectedProduct.brand || '') : '';
-  document.getElementById('m-company').value = detectedProduct ? (detectedProduct.company || '') : '';
-  document.getElementById('m-size').value = detectedProduct ? (detectedProduct.size || '') : '';
-  const mi = document.getElementById('manual-img');
-  if (capturedImageB64) { mi.src = capturedImageB64; mi.style.display = 'block'; }
-  goTo('s-manual');
+function updateScanUI(){
+  document.getElementById('scan-badge').textContent=currentCat==='food'?'🍎 الأغذية':'💊 الأدوية';
 }
 
-function selectSize(el, val) {
-  document.querySelectorAll('.size-opt').forEach(e => e.classList.remove('selected'));
-  el.classList.add('selected');
-  if (val !== 'other') document.getElementById('m-size').value = val;
+function switchScanTab(t){
+  document.getElementById('stab-photo').classList.toggle('active',t==='photo');
+  document.getElementById('stab-barcode').classList.toggle('active',t==='barcode');
+  document.getElementById('panel-photo').style.display=t==='photo'?'flex':'none';
+  document.getElementById('panel-barcode').style.display=t==='barcode'?'block':'none';
+  document.getElementById('scan-hint').textContent=t==='photo'?'وجّه الكاميرا نحو مقدمة المنتج\nواضغط «تحقق الآن»':'صوّر الباركود الموجود خلف المنتج\nأو أدخل الرقم يدوياً';
 }
 
-// File inputs
-document.getElementById('file-input').addEventListener('change', handleFile);
-document.getElementById('gallery-input').addEventListener('change', handleFile);
+// ── File inputs ───────────────────────────────────
+document.getElementById('fp').addEventListener('change',e=>handlePhoto(e));
+document.getElementById('fg').addEventListener('change',e=>handlePhoto(e));
+document.getElementById('fb').addEventListener('change',e=>handleBarcodePic(e));
 
-function handleFile(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    capturedImageB64 = ev.target.result;
-    const img = document.getElementById('preview-img');
-    img.src = capturedImageB64;
-    img.style.display = 'block';
-    document.getElementById('scan-placeholder').style.display = 'none';
-    e.target.value = '';
-    analyzeImage(capturedImageB64);
+function handlePhoto(e){
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    capturedB64=ev.target.result;
+    document.getElementById('preview-scan').src=capturedB64;
+    document.getElementById('preview-scan').style.display='block';
+    document.getElementById('scan-frame').style.display='none';
+    e.target.value='';
+    showSelectScreen();
   };
-  reader.readAsDataURL(file);
+  r.readAsDataURL(f);
 }
 
-// ── AI Analysis ─────────────────────────────────────────
-async function analyzeImage(b64full) {
+async function handleBarcodePic(e){
+  const f=e.target.files[0]; if(!f) return;
+  capturedB64=await fileToB64(f);
+  e.target.value='';
+  if('BarcodeDetector' in window){
+    try{
+      const det=new BarcodeDetector({formats:['ean_13','ean_8','code_128','code_39','upc_a','upc_e']});
+      const bmp=await createImageBitmap(f);
+      const res=await det.detect(bmp);
+      if(res.length>0){await runAnalyze();const m=DB.find(p=>p.barcode===res[0].rawValue);showResult(m);return;}
+    }catch(err){console.log('BarcodeDetector fail:',err);}
+  }
+  document.getElementById('bc-input').value='';
+  showToast('لم يُقرأ الباركود — أدخله يدوياً أدناه');
+}
+
+function fileToB64(f){return new Promise(res=>{const r=new FileReader();r.onload=e=>res(e.target.result);r.readAsDataURL(f);});}
+
+function lookupBarcode(){
+  const v=document.getElementById('bc-input').value.trim();
+  if(!v){showToast('أدخل رقم الباركود');return;}
+  const m=DB.find(p=>p.barcode===v);
+  runAnalyze().then(()=>showResult(m));
+}
+
+// ── Photo → Select screen ─────────────────────────
+function showSelectScreen(){
+  document.getElementById('sel-photo').src=capturedB64||'';
+  const catProds=DB.filter(p=>p.cat===currentCat);
+  const body=document.getElementById('sel-body');
+  body.innerHTML=catProds.map(p=>`
+    <div class="prod-pick" onclick="selectProduct('${p.id}')">
+      <div class="pick-icon">${p.icon}</div>
+      <div>
+        <div class="pick-nm">${p.name}</div>
+        <div class="pick-meta">${p.brand} · ${p.size} · ${p.barcode}</div>
+      </div>
+    </div>`).join('')+
+    `<button class="not-listed" onclick="goTo('s-fail')">هذا المنتج ليس في القائمة</button>`;
+  goTo('s-select');
+}
+
+async function selectProduct(id){
+  await runAnalyze();
+  const m=DB.find(p=>p.id===id);
+  showResult(m);
+}
+
+// ── Analyze animation ─────────────────────────────
+function runAnalyze(){
+  document.getElementById('an-img').src=capturedB64||'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=';
   goTo('s-analyzing');
-  document.getElementById('analyzing-img').src = b64full;
-  setStep('step-quality','active');
-
-  const b64 = b64full.split(',')[1];
-  const mime = (b64full.match(/^data:(.+);base64/) || ['','image/jpeg'])[1];
-
-  const prompt = `You are analyzing a product photo for a Libyan consumer protection app called Tammini.
-
-Look at the image and respond ONLY with valid JSON, no markdown, no extra text:
-{
-  "imageQuality": {
-    "isAcceptable": true or false,
-    "confidence": 0-100,
-    "issue": "one short sentence if not acceptable, empty string if acceptable"
-  },
-  "product": {
-    "detected": true or false,
-    "name": "product name in Arabic if visible, else in English",
-    "brand": "brand name exactly as written on packaging",
-    "company": "manufacturer or company name if visible",
-    "size": "size/volume exactly as written e.g. 500ml, 1L, 250g",
-    "icon": "one relevant emoji for this product type",
-    "category": "one of: مياه معبأة / ألبان ومشروبات / عصائر / شوكولاتة وحلويات / أغذية معلبة / أدوية / مكملات غذائية / مستلزمات طبية",
-    "confidence": 0-100
-  }
+  ['as1','as2','as3'].forEach(id=>{document.getElementById(id).classList.remove('done','active');});
+  return new Promise(res=>{
+    setTimeout(()=>setAs('as1','active'),200);
+    setTimeout(()=>{setAs('as1','done');setAs('as2','active');},900);
+    setTimeout(()=>{setAs('as2','done');setAs('as3','active');},1600);
+    setTimeout(()=>{setAs('as3','done');res();},2200);
+  });
 }
+function setAs(id,st){const e=document.getElementById(id);e.classList.remove('active','done');if(st)e.classList.add(st);}
 
-Image is acceptable if the product label is visible and readable. Not acceptable if too blurry, too dark, or no product visible.`;
-
-  try {
-    await delay(500);
-    setStep('step-quality','done'); setStep('step-detect','active');
-
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body: JSON.stringify({
-        model:'claude-haiku-4-5-20251001',
-        max_tokens:600,
-        messages:[{role:'user',content:[
-          {type:'image',source:{type:'base64',media_type:mime,data:b64}},
-          {type:'text',text:prompt}
-        ]}]
-      })
-    });
-
-    const data = await resp.json();
-    if (data.error) { showToast("API: " + data.error.message); goManual(); return; }
-    const raw = data.content[0].text;
-    const result = JSON.parse(raw.replace(/```json|```/g,'').trim());
-
-    await delay(400);
-    setStep('step-detect','done'); setStep('step-lookup','active');
-    await delay(500);
-    setStep('step-lookup','done');
-    await delay(300);
-
-    if (!result.imageQuality.isAcceptable) {
-      document.getElementById('quality-img').src = capturedImageB64;
-      document.getElementById('quality-issue').textContent = result.imageQuality.issue || '';
-      goTo('s-quality');
-      return;
-    }
-
-    const p = result.product;
-    detectedProduct = p;
-
-    // Show confirm screen — no typing needed
-    document.getElementById('confirm-photo').src = capturedImageB64;
-    document.getElementById('conf-icon').textContent  = p.icon || '📦';
-    document.getElementById('conf-name').textContent  = p.name || p.brand || 'منتج غير معروف';
-    document.getElementById('conf-brand').textContent = p.brand || '';
-    document.getElementById('conf-company').textContent = p.company || 'غير محدد';
-    document.getElementById('conf-size').textContent  = p.size || 'غير محدد';
-    document.getElementById('conf-cat').textContent   = p.category || currentCategory === 'food' ? 'أغذية' : 'أدوية';
-
-    const lowConf = document.getElementById('low-conf-banner');
-    lowConf.style.display = (p.confidence < 70) ? 'flex' : 'none';
-
-    goTo('s-confirm');
-
-  } catch(err) {
-    console.error(err);
-    setStep('step-detect','done'); setStep('step-lookup','done');
-    await delay(300);
-    goManual();
-    showToast('خطأ: ' + err.message);
-  }
-}
-
-// ── Confirm → Lookup ─────────────────────────────────────
-function confirmAndSearch() {
-  const p = detectedProduct;
-  if (!p) { goManual(); return; }
-  const searchTerm = (p.name + ' ' + p.brand).toLowerCase();
-  const match = findInDB(searchTerm);
-  showResult(match);
-}
-
-function doLookup() {
-  const brand = document.getElementById('m-brand').value.trim();
-  if (!brand) { showToast('يرجى إدخال اسم المنتج'); return; }
-  const match = findInDB(brand.toLowerCase());
-  showResult(match);
-}
-
-function findInDB(searchTerm) {
-  return DB.find(p => p.keywords.some(k => searchTerm.includes(k) || k.includes(searchTerm.split(' ')[0])));
-}
-
-function showResult(match) {
-  if (match) {
-    document.getElementById('r-icon').textContent    = match.icon;
-    document.getElementById('r-name').textContent    = match.name;
-    document.getElementById('r-brand').textContent   = match.brand;
-    document.getElementById('r-company').textContent = match.company;
-    document.getElementById('r-origin').textContent  = match.origin;
-    document.getElementById('r-category').textContent= match.category;
-    document.getElementById('r-size').textContent    = match.size;
-    document.getElementById('r-cert-num').textContent= match.id;
+// ── Show result ───────────────────────────────────
+function showResult(match){
+  if(match){
+    document.getElementById('r-ico').textContent=match.icon;
+    document.getElementById('r-nm').textContent=match.name;
+    document.getElementById('r-chip').textContent=match.brand;
+    document.getElementById('r-co').textContent=match.company;
+    document.getElementById('r-orig').textContent=match.origin;
+    document.getElementById('r-cat').textContent=match.catLabel;
+    document.getElementById('r-sz').textContent=match.size;
+    document.getElementById('r-certnum').textContent=match.certNum;
+    document.getElementById('r-valid').textContent=match.valid;
+    document.getElementById('res-date').textContent='04 JUN 2026';
     goTo('s-success');
   } else {
     goTo('s-fail');
   }
 }
 
-function setStep(id, state) {
-  const el = document.getElementById(id);
-  el.classList.remove('active','done');
-  if (state) el.classList.add(state);
-}
-function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2800);
+// ── Utils ─────────────────────────────────────────
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
 }
 </script>
 </body>
